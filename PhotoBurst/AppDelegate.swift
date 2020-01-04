@@ -7,18 +7,29 @@
 //
 
 import UIKit
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+    var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        UINavigationBar.appearance().isTranslucent = false
+        UINavigationBar.appearance().tintColor = .black
+        UINavigationBar.appearance().barTintColor = .white
+        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: Colors.blue, .font: UIFont(name: "Baskerville-BoldItalic", size: 25)!]
+        
+        UIToolbar.appearance().isTranslucent = false
+        UIToolbar.appearance().barTintColor = .white
+        
+        UIApplication.shared.statusBarStyle = .darkContent
+        
+        FirebaseApp.configure()
+        
         return true
     }
-
-    // MARK: UISceneSession Lifecycle
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.

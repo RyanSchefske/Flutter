@@ -1,0 +1,6 @@
+framework module Pods_PhotoBurst {
+  umbrella header "Pods-PhotoBurst-umbrella.h"
+
+  export *
+  module * { export * }
+}

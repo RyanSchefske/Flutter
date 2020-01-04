@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>40648478632-qm4orb72oa9j2dn6fejoba9nbdn29kcl.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.40648478632-qm4orb72oa9j2dn6fejoba9nbdn29kcl</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCFFMUVsQSz-u4-AyZm9EHtiR81q8Vq9dw</string>
+	<key>GCM_SENDER_ID</key>
+	<string>40648478632</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.ryanschefske.PhotoBurst</string>
+	<key>PROJECT_ID</key>
+	<string>flutter-a4c64</string>
+	<key>STORAGE_BUCKET</key>
+	<string>flutter-a4c64.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:40648478632:ios:44d4f4558153f9a7db179d</string>
+	<key>DATABASE_URL</key>
+	<string>https://flutter-a4c64.firebaseio.com</string>
+</dict>
+</plist>

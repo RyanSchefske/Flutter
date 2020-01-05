@@ -17,5 +17,6 @@ struct Constants {
         static let likedPosts = "LikedPosts"
         static let blockedUsers = "BlockedUsers"
         static let hiddenPosts = "HiddenPosts"
+        static let following = "Following"
     }
 }

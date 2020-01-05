@@ -47,6 +47,7 @@ class ProfileCollectionViewCell: UICollectionViewCell {
         usernameLabel = {
             let label = UILabel()
             label.text = "Username"
+            label.textColor = .black
             label.textAlignment = .center
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
@@ -63,6 +64,7 @@ class ProfileCollectionViewCell: UICollectionViewCell {
             button.setTitle("Follow", for: .normal)
             button.backgroundColor = Colors.blue
             button.layer.cornerRadius = 5
+            button.addTarget(ProfileCollectionView(), action: #selector(ProfileCollectionView().followClicked), for: .touchUpInside)
             button.translatesAutoresizingMaskIntoConstraints = false
             return button
         }()
@@ -76,6 +78,7 @@ class ProfileCollectionViewCell: UICollectionViewCell {
         followersLabel = {
             let label = UILabel()
             label.text = "Followers: 0"
+            label.textColor = .black
             label.textAlignment = .center
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
@@ -90,6 +93,7 @@ class ProfileCollectionViewCell: UICollectionViewCell {
         followingLabel = {
             let label = UILabel()
             label.text = "Following: 0"
+            label.textColor = .black
             label.textAlignment = .center
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
@@ -104,6 +108,7 @@ class ProfileCollectionViewCell: UICollectionViewCell {
         postsLabel = {
             let label = UILabel()
             label.text = "Posts: 0"
+            label.textColor = .black
             label.textAlignment = .center
             label.translatesAutoresizingMaskIntoConstraints = false
             return label

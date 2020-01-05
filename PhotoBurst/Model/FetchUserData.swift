@@ -36,6 +36,15 @@ class FetchUserData {
         }
         return []
     }
+    
+    func fetchFollowing() -> [String] {
+        if let following = UserDefaults.standard.stringArray(forKey: Constants.UserData.following) {
+            return following
+        } else {
+            UserDefaults.standard.set([], forKey: Constants.UserData.following)
+        }
+        return []
+    }
 }
 
 class UpdateUserData {

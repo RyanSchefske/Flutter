@@ -18,6 +18,7 @@ class ProfileCollectionView: UIView, UICollectionViewDelegate, UICollectionViewD
     var likedPosts = [String]()
     var blockedUsers = [String]()
     var hiddenPosts = [String]()
+    var following = [String]()
     
     var userId = String()
     
@@ -46,6 +47,8 @@ class ProfileCollectionView: UIView, UICollectionViewDelegate, UICollectionViewD
         likedPosts = FetchUserData().fetchLikes()
         blockedUsers = FetchUserData().fetchBlockedUsers()
         hiddenPosts = FetchUserData().fetchHiddenPosts()
+        following = FetchUserData().fetchFollowing()
+        print("First: \(following)")
         
         if posts.count == 0 {
             showSpinner(onView: self)
@@ -89,7 +92,17 @@ class ProfileCollectionView: UIView, UICollectionViewDelegate, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.item == 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "profileCell", for: indexPath) as! ProfileCollectionViewCell
+            
             if let user = self.user {
+                print("Cell: \(following)")
+                print(user.userId)
+                if following.contains(user.userId) {
+                    cell.followButton.backgroundColor = .red
+                    cell.followButton.setTitle("Unfollow", for: .normal)
+                } else {
+                    cell.followButton.backgroundColor = Colors.blue
+                    cell.followButton.setTitle("Follow", for: .normal)
+                }
                 cell.usernameLabel.text = user.username
                 cell.followersLabel.text = "Followers: \(user.followers)"
                 cell.followingLabel.text = "Following: \(user.following)"
@@ -214,6 +227,23 @@ class ProfileCollectionView: UIView, UICollectionViewDelegate, UICollectionViewD
             }
             UserDefaults.standard.set(self.likedPosts, forKey: Constants.UserData.likedPosts)
         }
+    }
+    
+    @objc func followClicked() {
+        if userId != Auth.auth().currentUser!.uid {
+            if following.contains(userId) {
+                if let index = following.firstIndex(of: userId) {
+                    following.remove(at: index)
+                }
+                UserDefaults.standard.set(following, forKey: Constants.UserData.following)
+                SaveUserInfo().updateUnfollowing()
+            } else {
+                following.append(userId)
+                UserDefaults.standard.set(following, forKey: Constants.UserData.following)
+                SaveUserInfo().updateFollowing()
+            }
+        }
+        collectionView?.reloadData()
     }
     
     required init?(coder: NSCoder) {

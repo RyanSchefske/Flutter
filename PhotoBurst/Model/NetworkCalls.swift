@@ -70,6 +70,40 @@ class SaveUserInfo {
             }
         }
     }
+    
+    func updateFollowing() {
+        db.collection("users").whereField("userId", isEqualTo: Auth.auth().currentUser!.uid).getDocuments { (querySnapshot, error) in
+            if error != nil {
+                print("Error: \(error!.localizedDescription)")
+            } else {
+                if querySnapshot?.documents.count != 0 {
+                    let document = querySnapshot!.documents.first
+                    if var following = document!.data()["following"] as? Int {
+                        following += 1
+                        document!.reference.updateData(["following": following])
+                    }
+                }
+            }
+        }
+    }
+    
+    func updateUnfollowing() {
+        func updateFollowing() {
+            db.collection("users").whereField("userId", isEqualTo: Auth.auth().currentUser!.uid).getDocuments { (querySnapshot, error) in
+                if error != nil {
+                    print("Error: \(error!.localizedDescription)")
+                } else {
+                    if querySnapshot?.documents.count != 0 {
+                        let document = querySnapshot!.documents.first
+                        if var following = document!.data()["following"] as? Int {
+                            following -= 1
+                            document!.reference.updateData(["following": following])
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 class UpdatePostData {

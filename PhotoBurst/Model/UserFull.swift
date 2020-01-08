@@ -13,7 +13,8 @@ struct UserFull: Equatable {
     var username: String
     var userId: String
     var posts: Int
-    var following: Int
-    var followers: Int
+    var picture: String
+    var following: [String]
+    var followers: [String]
     var notificationToken: String
 }

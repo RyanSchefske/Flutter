@@ -8,15 +8,31 @@
 
 import UIKit
 
-class DiscoverViewController: UIViewController {
+protocol DiscoverProfileDelegate {
+    func discoverProfileTapped(userId: String)
+}
+
+class DiscoverViewController: UIViewController, DiscoverProfileDelegate {
+    
+    var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Discover"
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
-        view.backgroundColor = .yellow
+        title = "Discover"
+        
+        let myCollectionView = DiscoverCollectionView()
+        myCollectionView.delegate = self
+        view.addSubview(myCollectionView)
+        
         setToolbarItems(customToolbarItems(), animated: true)
         navigationController?.setToolbarHidden(false, animated: true)
+    }
+    
+    func discoverProfileTapped(userId: String) {
+        let vc = ProfileViewController()
+        vc.userId = userId
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }

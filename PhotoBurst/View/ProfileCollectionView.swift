@@ -22,6 +22,12 @@ class ProfileCollectionView: UIView, UICollectionViewDelegate, UICollectionViewD
     
     var userId = String()
     
+    var profilePicture = UIImage() {
+        didSet {
+            self.collectionView?.reloadData()
+        }
+    }
+    
     var user: UserFull? {
         didSet {
             self.collectionView?.reloadData()
@@ -48,7 +54,6 @@ class ProfileCollectionView: UIView, UICollectionViewDelegate, UICollectionViewD
         blockedUsers = FetchUserData().fetchBlockedUsers()
         hiddenPosts = FetchUserData().fetchHiddenPosts()
         following = FetchUserData().fetchFollowing()
-        print("First: \(following)")
         
         if posts.count == 0 {
             showSpinner(onView: self)
@@ -94,8 +99,6 @@ class ProfileCollectionView: UIView, UICollectionViewDelegate, UICollectionViewD
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "profileCell", for: indexPath) as! ProfileCollectionViewCell
             
             if let user = self.user {
-                print("Cell: \(following)")
-                print(user.userId)
                 if following.contains(user.userId) {
                     cell.followButton.backgroundColor = .red
                     cell.followButton.setTitle("Unfollow", for: .normal)
@@ -104,9 +107,11 @@ class ProfileCollectionView: UIView, UICollectionViewDelegate, UICollectionViewD
                     cell.followButton.setTitle("Follow", for: .normal)
                 }
                 cell.usernameLabel.text = user.username
-                cell.followersLabel.text = "Followers: \(user.followers)"
-                cell.followingLabel.text = "Following: \(user.following)"
+                cell.followersLabel.text = "Followers: \(user.followers.count)"
+                cell.followingLabel.text = "Following: \(user.following.count)"
                 cell.postsLabel.text = "Posts: \(user.posts)"
+                cell.profilePicture.image = profilePicture
+                cell.profilePicture.clipsToBounds = true
             }
             return cell
         } else {
@@ -121,7 +126,7 @@ class ProfileCollectionView: UIView, UICollectionViewDelegate, UICollectionViewD
                 cell.likeButton.isSelected = false
             }
             
-            cell.imageView.image = UIImage.animatedImage(with: post.photos, duration: 0.8)
+            cell.imageView.image = UIImage.animatedImage(with: post.photos, duration: 0.75)
             cell.imageView.startAnimating()
             
             cell.usernameLabel.text = post.username
@@ -155,7 +160,8 @@ class ProfileCollectionView: UIView, UICollectionViewDelegate, UICollectionViewD
                 if querySnapshot?.documents.count != 0 {
                     let document = querySnapshot!.documents.first
                     let data = document!.data()
-                    self.user = UserFull(email: data["email"] as! String, username: data["username"] as! String, userId: data["userId"] as! String, posts: data["posts"] as! Int, following: data["following"] as! Int, followers: data["followers"] as! Int, notificationToken: data["notificationToken"] as! String)
+                    self.user = UserFull(email: data["email"] as! String, username: data["username"] as! String, userId: data["userId"] as! String, posts: data["posts"] as! Int, picture: data["profilePicture"] as! String, following: data["following"] as! [String], followers: data["followers"] as! [String], notificationToken: data["notificationToken"] as! String)
+                    self.loadProfilePicture(imageUrl: self.user!.picture)
                 }
             }
         }
@@ -171,6 +177,10 @@ class ProfileCollectionView: UIView, UICollectionViewDelegate, UICollectionViewD
             if error != nil {
                 print("Error: \(error!.localizedDescription)")
             } else {
+                if querySnapshot?.documents.count == 0 {
+                    self.removeSpinner()
+                    return
+                }
                 for document in querySnapshot!.documents {
                     let data = document.data()
                     if let array = data["photos"] as? [String] {
@@ -208,6 +218,24 @@ class ProfileCollectionView: UIView, UICollectionViewDelegate, UICollectionViewD
         }
     }
     
+    func loadProfilePicture(imageUrl: String) {
+        if imageUrl == "N/A" {
+            self.profilePicture = UIImage(named: "user")!
+        } else {
+            let storage = Storage.storage()
+            let httpReference = storage.reference(forURL: imageUrl)
+            httpReference.getData(maxSize: 1 * 1024 * 1024) { (photoData, error) in
+                if error != nil {
+                    print("Error")
+                } else {
+                    if let image = UIImage(data: photoData!) {
+                        self.profilePicture = image
+                    }
+                }
+            }
+        }
+    }
+    
     @objc func likeClicked(_ sender: UIButton) {
         sender.popIn()
         if sender.isSelected {
@@ -236,11 +264,12 @@ class ProfileCollectionView: UIView, UICollectionViewDelegate, UICollectionViewD
                     following.remove(at: index)
                 }
                 UserDefaults.standard.set(following, forKey: Constants.UserData.following)
-                SaveUserInfo().updateUnfollowing()
+                SaveUserInfo().updateUnfollowing(userId: userId)
             } else {
+                SendNotification().sendFollowNotification(to: userId)
                 following.append(userId)
                 UserDefaults.standard.set(following, forKey: Constants.UserData.following)
-                SaveUserInfo().updateFollowing()
+                SaveUserInfo().updateFollowing(userId: userId)
             }
         }
         collectionView?.reloadData()

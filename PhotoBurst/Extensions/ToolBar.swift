@@ -53,11 +53,8 @@ extension UIViewController {
     }
     
     @objc func profileClicked() {
-        if navigationController?.topViewController is ProfileViewController {
-        } else {
-            let vc = ProfileViewController()
-            vc.userId = Auth.auth().currentUser!.uid
-            navigationController?.pushViewController(vc, animated: true)
-        }
+        let vc = ProfileViewController()
+        vc.userId = Auth.auth().currentUser!.uid
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

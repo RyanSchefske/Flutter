@@ -25,7 +25,7 @@
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>To Save Your Photos</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>To Take Pictures</string>
+	<string>To Get Pictures</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

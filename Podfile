@@ -12,6 +12,8 @@ target 'PhotoBurst' do
   pod 'FirebaseUI/Auth'
   pod 'FirebaseUI/Email'
   pod 'Firebase/Messaging'
+  pod 'Firebase/Functions'
   pod 'FirebaseFirestoreSwift'
+  pod 'RSKImageCropper'
 
 end

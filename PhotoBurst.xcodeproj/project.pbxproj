@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		176879724632EB6658084968 /* Pods_PhotoBurst.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B9A541E7F023F3DDE78AA5A /* Pods_PhotoBurst.framework */; };
+		3D044FD623C517D700EF1DE2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3D044FD523C517D700EF1DE2 /* GoogleService-Info.plist */; };
 		3D12231A23C1251B00D5DE1C /* UserShort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D12231923C1251B00D5DE1C /* UserShort.swift */; };
 		3D12231C23C130F100D5DE1C /* ProfileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D12231B23C130F100D5DE1C /* ProfileCollectionViewCell.swift */; };
 		3D12231E23C13B9200D5DE1C /* UserFull.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D12231D23C13B9200D5DE1C /* UserFull.swift */; };
@@ -16,7 +17,6 @@
 		3D275BED23AAC24F0020B7B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D275BEC23AAC24F0020B7B5 /* Assets.xcassets */; };
 		3D275BF023AAC24F0020B7B5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D275BEE23AAC24F0020B7B5 /* LaunchScreen.storyboard */; };
 		3D275BF823AAC2B30020B7B5 /* TakePhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D275BF723AAC2B30020B7B5 /* TakePhotoViewController.swift */; };
-		3D4A272A23AE91EA00C77A9D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3D4A272923AE91EA00C77A9D /* GoogleService-Info.plist */; };
 		3D4A272C23AE962300C77A9D /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4A272B23AE962300C77A9D /* FeedViewController.swift */; };
 		3D4A272E23AEA14500C77A9D /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4A272D23AEA14500C77A9D /* SignInViewController.swift */; };
 		3D4A273023AEB7D900C77A9D /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4A272F23AEB7D900C77A9D /* SearchViewController.swift */; };
@@ -24,6 +24,8 @@
 		3D4A273523AEBC8F00C77A9D /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4A273423AEBC8F00C77A9D /* Filter.swift */; };
 		3D4A273723AEBE3700C77A9D /* FeedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4A273623AEBE3700C77A9D /* FeedCollectionViewCell.swift */; };
 		3D4A273923AEC8E500C77A9D /* UserInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4A273823AEC8E500C77A9D /* UserInfoViewController.swift */; };
+		3D4A799623C41459001E5DB6 /* DiscoverCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4A799523C41459001E5DB6 /* DiscoverCollectionView.swift */; };
+		3D4A799A23C41940001E5DB6 /* DiscoverCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4A799923C41940001E5DB6 /* DiscoverCollectionViewCell.swift */; };
 		3D5A0D2C23BD905700FA79C9 /* FormatDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5A0D2B23BD905700FA79C9 /* FormatDate.swift */; };
 		3D5A0D2F23BDA55000FA79C9 /* PopIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5A0D2E23BDA55000FA79C9 /* PopIn.swift */; };
 		3D5DE33823AC8D4E00FCF449 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5DE33723AC8D4E00FCF449 /* EditViewController.swift */; };
@@ -44,6 +46,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3D044FD423C5124F00EF1DE2 /* Flutter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Flutter.entitlements; sourceTree = "<group>"; };
+		3D044FD523C517D700EF1DE2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3D12231923C1251B00D5DE1C /* UserShort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserShort.swift; sourceTree = "<group>"; };
 		3D12231B23C130F100D5DE1C /* ProfileCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCollectionViewCell.swift; sourceTree = "<group>"; };
 		3D12231D23C13B9200D5DE1C /* UserFull.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFull.swift; sourceTree = "<group>"; };
@@ -54,7 +58,6 @@
 		3D275BEF23AAC24F0020B7B5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3D275BF123AAC24F0020B7B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3D275BF723AAC2B30020B7B5 /* TakePhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TakePhotoViewController.swift; sourceTree = "<group>"; };
-		3D4A272923AE91EA00C77A9D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3D4A272B23AE962300C77A9D /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		3D4A272D23AEA14500C77A9D /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		3D4A272F23AEB7D900C77A9D /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -62,6 +65,8 @@
 		3D4A273423AEBC8F00C77A9D /* Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
 		3D4A273623AEBE3700C77A9D /* FeedCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCollectionViewCell.swift; sourceTree = "<group>"; };
 		3D4A273823AEC8E500C77A9D /* UserInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoViewController.swift; sourceTree = "<group>"; };
+		3D4A799523C41459001E5DB6 /* DiscoverCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverCollectionView.swift; sourceTree = "<group>"; };
+		3D4A799923C41940001E5DB6 /* DiscoverCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverCollectionViewCell.swift; sourceTree = "<group>"; };
 		3D5A0D2B23BD905700FA79C9 /* FormatDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatDate.swift; sourceTree = "<group>"; };
 		3D5A0D2E23BDA55000FA79C9 /* PopIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopIn.swift; sourceTree = "<group>"; };
 		3D5DE33723AC8D4E00FCF449 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
@@ -117,10 +122,11 @@
 		3D275BE223AAC24D0020B7B5 /* PhotoBurst */ = {
 			isa = PBXGroup;
 			children = (
+				3D044FD423C5124F00EF1DE2 /* Flutter.entitlements */,
 				3D275BE323AAC24D0020B7B5 /* AppDelegate.swift */,
 				3D275BE523AAC24D0020B7B5 /* SceneDelegate.swift */,
 				3D275BF123AAC24F0020B7B5 /* Info.plist */,
-				3D4A272923AE91EA00C77A9D /* GoogleService-Info.plist */,
+				3D044FD523C517D700EF1DE2 /* GoogleService-Info.plist */,
 				3DBC4B8B23B4904C00829290 /* Model */,
 				3DBC4B8C23B4905600829290 /* View */,
 				3DBC4B8D23B4905B00829290 /* Controller */,
@@ -178,6 +184,7 @@
 			children = (
 				3D80277F23B57AF100E17CD5 /* SignInView.swift */,
 				3D64C95723B707F600B6C4B8 /* FeedCollectionView.swift */,
+				3D4A799523C41459001E5DB6 /* DiscoverCollectionView.swift */,
 				3DB44F5123BFF76C002EBB76 /* ProfileCollectionView.swift */,
 				3DBC4B8E23B4907100829290 /* Cells */,
 			);
@@ -193,8 +200,8 @@
 				3D275BF723AAC2B30020B7B5 /* TakePhotoViewController.swift */,
 				3D5DE33723AC8D4E00FCF449 /* EditViewController.swift */,
 				3D4A272B23AE962300C77A9D /* FeedViewController.swift */,
-				3D906C3C23BE90590010AFEC /* ProfileViewController.swift */,
 				3DB44F4F23BFF552002EBB76 /* DiscoverViewController.swift */,
+				3D906C3C23BE90590010AFEC /* ProfileViewController.swift */,
 				3D4A272F23AEB7D900C77A9D /* SearchViewController.swift */,
 			);
 			path = Controller;
@@ -205,6 +212,7 @@
 			children = (
 				3DE3B0ED23AD7F8B0092BA46 /* FilterCollectionViewCell.swift */,
 				3D4A273623AEBE3700C77A9D /* FeedCollectionViewCell.swift */,
+				3D4A799923C41940001E5DB6 /* DiscoverCollectionViewCell.swift */,
 				3D12231B23C130F100D5DE1C /* ProfileCollectionViewCell.swift */,
 				3D906C3823BE75000010AFEC /* SettingsTableCell.swift */,
 			);
@@ -291,7 +299,7 @@
 			files = (
 				3D275BF023AAC24F0020B7B5 /* LaunchScreen.storyboard in Resources */,
 				3D275BED23AAC24F0020B7B5 /* Assets.xcassets in Resources */,
-				3D4A272A23AE91EA00C77A9D /* GoogleService-Info.plist in Resources */,
+				3D044FD623C517D700EF1DE2 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -363,6 +371,7 @@
 			files = (
 				3D4A273323AEBBD600C77A9D /* ToolBar.swift in Sources */,
 				3D906C3B23BE81A50010AFEC /* FetchUserData.swift in Sources */,
+				3D4A799A23C41940001E5DB6 /* DiscoverCollectionViewCell.swift in Sources */,
 				3D64C95823B707F600B6C4B8 /* FeedCollectionView.swift in Sources */,
 				3D12231C23C130F100D5DE1C /* ProfileCollectionViewCell.swift in Sources */,
 				3D4A273523AEBC8F00C77A9D /* Filter.swift in Sources */,
@@ -383,6 +392,7 @@
 				3D275BF823AAC2B30020B7B5 /* TakePhotoViewController.swift in Sources */,
 				3DB44F5023BFF552002EBB76 /* DiscoverViewController.swift in Sources */,
 				3D275BE623AAC24D0020B7B5 /* SceneDelegate.swift in Sources */,
+				3D4A799623C41459001E5DB6 /* DiscoverCollectionView.swift in Sources */,
 				3D4A272C23AE962300C77A9D /* FeedViewController.swift in Sources */,
 				3D906C3923BE75000010AFEC /* SettingsTableCell.swift in Sources */,
 				3D5A0D2F23BDA55000FA79C9 /* PopIn.swift in Sources */,
@@ -527,6 +537,7 @@
 			baseConfigurationReference = 6E170B30AD47BEE73E8853B8 /* Pods-PhotoBurst.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = PhotoBurst/Flutter.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3LN4LFZD99;
 				INFOPLIST_FILE = PhotoBurst/Info.plist;
@@ -547,6 +558,7 @@
 			baseConfigurationReference = 539F12DD0831C48263AC2264 /* Pods-PhotoBurst.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = PhotoBurst/Flutter.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3LN4LFZD99;
 				INFOPLIST_FILE = PhotoBurst/Info.plist;

@@ -15,6 +15,7 @@ class FeedCollectionViewCell: UICollectionViewCell {
     var usernameLabel = UILabel()
     var dateLabel = UILabel()
     var likeButton = UIButton()
+    var likeLabel = UILabel()
     var commentButton = UIButton()
     var moreButton = UIButton()
     
@@ -79,6 +80,15 @@ class FeedCollectionViewCell: UICollectionViewCell {
             return button
         }()
         
+        likeLabel = {
+            let label = UILabel()
+            label.text = "0"
+            label.font = UIFont.systemFont(ofSize: 15)
+            label.textAlignment = .left
+            label.textColor = .black
+            return label
+        }()
+        
         commentButton = {
             let button = UIButton()
             button.setImage(UIImage(named: "comment"), for: .normal)
@@ -98,7 +108,7 @@ class FeedCollectionViewCell: UICollectionViewCell {
             let sv = UIStackView()
             sv.axis = .horizontal
             sv.translatesAutoresizingMaskIntoConstraints = false
-            sv.spacing = 15
+            sv.spacing = 5
             sv.distribution = .fillProportionally
             sv.alignment = .center
             return sv
@@ -107,6 +117,7 @@ class FeedCollectionViewCell: UICollectionViewCell {
         
         stackView.addArrangedSubview(nameDateStackView)
         stackView.addArrangedSubview(likeButton)
+        stackView.addArrangedSubview(likeLabel)
         //stackView.addArrangedSubview(commentButton)
         stackView.addArrangedSubview(moreButton)
         
@@ -120,10 +131,12 @@ class FeedCollectionViewCell: UICollectionViewCell {
             stackView.heightAnchor.constraint(equalToConstant: 200).isActive = true
             usernameLabel.font = UIFont.systemFont(ofSize: 35)
             dateLabel.font = UIFont.systemFont(ofSize: 30)
+            likeLabel.font = UIFont.systemFont(ofSize: 30)
             nameDateStackView.spacing = 10
             buttonSize = 50
         }
         
+        likeLabel.widthAnchor.constraint(equalToConstant: buttonSize).isActive = true
         likeButton.heightAnchor.constraint(equalToConstant: buttonSize).isActive = true
         likeButton.widthAnchor.constraint(equalToConstant: buttonSize).isActive = true
         commentButton.heightAnchor.constraint(equalToConstant: buttonSize).isActive = true

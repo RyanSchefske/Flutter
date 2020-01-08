@@ -9,7 +9,7 @@
 import UIKit
 
 struct Colors {
-    static let blue = UIColor(red: 61/255, green: 156/255, blue: 255/255, alpha: 1)
+    static let blue = UIColor(red: 104/255, green: 170/255, blue: 255/255, alpha: 1)
 }
 
 struct Constants {

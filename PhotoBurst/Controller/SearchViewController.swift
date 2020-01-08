@@ -21,6 +21,7 @@ class SearchViewController: UITableViewController, UISearchResultsUpdating {
     }
     
     func setup() {
+        tableView.backgroundColor = .white
         tableView.register(SettingsTableCell.self, forCellReuseIdentifier: "cellId")
         title = "Search"
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
@@ -30,6 +31,7 @@ class SearchViewController: UITableViewController, UISearchResultsUpdating {
         searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchBar.barTintColor = .white
         definesPresentationContext = true
         tableView.tableHeaderView = searchController.searchBar
         searchController.searchBar.tintColor = .white

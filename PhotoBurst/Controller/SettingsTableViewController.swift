@@ -22,12 +22,9 @@ class SettingsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
         
         if indexPath.row == 0 {
-            cell.textLabel?.text = "Terms of Use"
-            cell.textLabel?.textColor = Colors.blue
-        } else if indexPath.row == 1 {
             cell.textLabel?.text = "Privacy Policy"
             cell.textLabel?.textColor = Colors.blue
-        } else if indexPath.row == 2 {
+        } else if indexPath.row == 1 {
             cell.textLabel?.text = "Change Username"
             cell.textLabel?.textColor = Colors.blue
         } else {
@@ -42,18 +39,11 @@ class SettingsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
-            /*
-            let vc = TextViewController()
-            vc.textNum = 1
-            navigationController?.pushViewController(vc, animated: true)
- */
+            guard let url = URL(string: "https://ryanschefske.wixsite.com/home/blank-page-2") else {
+                return
+            }
+            UIApplication.shared.open(url)
         } else if indexPath.row == 1 {
-            /*
-            let vc = TextViewController()
-            vc.textNum = 2
-            navigationController?.pushViewController(vc, animated: true)
- */
-        } else if indexPath.row == 2 {
             navigationController?.pushViewController(UserInfoViewController(), animated: true)
         } else {
             try! Auth.auth().signOut()
@@ -67,7 +57,7 @@ class SettingsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return 3
     }
     
     func setupView() {

@@ -18,6 +18,8 @@ class FeedCollectionView: UIView, UICollectionViewDelegate, UICollectionViewData
     var likedPosts = [String]()
     var blockedUsers = [String]()
     var hiddenPosts = [String]()
+    var following = [String]()
+    var noPostsLabel = UILabel()
     
     var delegate: ProfileDelegate?
     
@@ -68,6 +70,18 @@ class FeedCollectionView: UIView, UICollectionViewDelegate, UICollectionViewData
         collectionView!.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
         collectionView!.heightAnchor.constraint(equalToConstant: self.frame.height - 44 - UIApplication.shared.statusBarFrame.size.height - UINavigationBar.appearance().frame.height).isActive = true
         collectionView!.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        
+        noPostsLabel = {
+            let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: 100))
+            label.text = "No Posts Available. Follow your friends or click the Discover page below!"
+            label.alpha = 0
+            label.numberOfLines = 0
+            label.textAlignment = .center
+            label.textColor = .black
+            label.center = self.center
+            return label
+        }()
+        self.addSubview(noPostsLabel)
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -95,11 +109,12 @@ class FeedCollectionView: UIView, UICollectionViewDelegate, UICollectionViewData
             cell.likeButton.isSelected = false
         }
         
-        cell.imageView.image = UIImage.animatedImage(with: post.photos, duration: 0.8)
+        cell.imageView.image = UIImage.animatedImage(with: post.photos, duration: 0.75)
         cell.imageView.startAnimating()
         
         cell.usernameLabel.text = post.username
-        cell.dateLabel.text = FormatDate().formatDate(date: post.time) 
+        cell.dateLabel.text = FormatDate().formatDate(date: post.time)
+        cell.likeLabel.text = "\(post.likes)"
                 
         return cell
     }
@@ -113,10 +128,8 @@ class FeedCollectionView: UIView, UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if posts.count >= 3 {
-            if indexPath.item == posts.count - 1 {
-                loadPosts(date: posts[posts.count - 1].time)
-            }
+        if indexPath.item == posts.count - 1 {
+            loadPosts(date: posts[posts.count - 1].time)
         }
     }
     
@@ -126,39 +139,55 @@ class FeedCollectionView: UIView, UICollectionViewDelegate, UICollectionViewData
         let dispatchQueue = DispatchQueue(label: "download")
         let dispatchSemaphore = DispatchSemaphore(value: 0)
         
-        db.collection("posts").order(by: "time", descending: true).whereField("time", isLessThan: date).limit(to: 3).getDocuments { (querySnapshot, error) in
-            if error != nil {
-                print("Error: \(error!.localizedDescription)")
-            } else {
-                for document in querySnapshot!.documents {
-                    let data = document.data()
-                    if let array = data["photos"] as? [String] {
-                        var postImages = [UIImage]()
-                        dispatchQueue.async {
-                            for imageURL in array {
-                                dispatchGroup.enter()
-                                let httpReference = storageRef.reference(forURL: imageURL)
-                                httpReference.getData(maxSize: 1 * 1024 * 1024) { (photoData, error) in
-                                    if error != nil {
-                                        print("Error")
-                                    } else {
-                                        if let image = UIImage(data: photoData!) {
-                                            postImages.append(image)
-                                            dispatchSemaphore.signal()
-                                            dispatchGroup.leave()
-                                            if postImages.count == 5 {
-                                                let timestamp: Timestamp = data["time"] as! Timestamp
-                                                let time: Date = timestamp.dateValue()
-                                                let post = Post(username: data["username"] as! String, userId: data["userId"] as! String, postId: data["postId"] as! String, time: time, likes: data["likes"] as! Int, comments: data["comments"] as! Int, photos: postImages, reports: data["reports"] as! Int, liked: false)
-                                                if self.posts.contains(post) == false && self.blockedUsers.contains(post.userId) == false && self.hiddenPosts.contains(post.postId) == false {
-                                                    self.posts.append(post)
+        let following = FetchUserData().fetchFollowing()
+        
+        if following == [] {
+            noPostsLabel.alpha = 1
+            self.removeSpinner()
+        } else {
+            db.collection("posts").order(by: "time", descending: true).start(after: [date]).whereField("userId", in: following).limit(to: 3).getDocuments { (querySnapshot, error) in
+                if error != nil {
+                    print("Error: \(error!.localizedDescription)")
+                } else {
+                    if querySnapshot!.documents.count == 0 {
+                        self.noPostsLabel.alpha = 1
+                        self.removeSpinner()
+                        return
+                    } else {
+                        for document in querySnapshot!.documents {
+                            let data = document.data()
+                            if self.posts.contains(where: { $0.postId == data["postId"] as! String}) {
+                                continue
+                            }
+                            if let array = data["photos"] as? [String] {
+                                var postImages = [UIImage]()
+                                dispatchQueue.async {
+                                    for imageURL in array {
+                                        dispatchGroup.enter()
+                                        let httpReference = storageRef.reference(forURL: imageURL)
+                                        httpReference.getData(maxSize: 1 * 1024 * 1024) { (photoData, error) in
+                                            if error != nil {
+                                                print("Error")
+                                            } else {
+                                                if let image = UIImage(data: photoData!) {
+                                                    postImages.append(image)
+                                                    dispatchSemaphore.signal()
+                                                    dispatchGroup.leave()
+                                                    if postImages.count == 5 {
+                                                        let timestamp: Timestamp = data["time"] as! Timestamp
+                                                        let time: Date = timestamp.dateValue()
+                                                        let post = Post(username: data["username"] as! String, userId: data["userId"] as! String, postId: data["postId"] as! String, time: time, likes: data["likes"] as! Int, comments: data["comments"] as! Int, photos: postImages, reports: data["reports"] as! Int, liked: false)
+                                                        if self.posts.contains(where: { $0.postId == post.postId }) == false && self.blockedUsers.contains(post.userId) == false && self.hiddenPosts.contains(post.postId) == false {
+                                                            self.posts.append(post)
+                                                        }
+                                                        postImages = [UIImage]()
+                                                    }
                                                 }
-                                                postImages = [UIImage]()
                                             }
                                         }
+                                        dispatchSemaphore.wait()
                                     }
                                 }
-                                dispatchSemaphore.wait()
                             }
                         }
                     }
@@ -171,16 +200,19 @@ class FeedCollectionView: UIView, UICollectionViewDelegate, UICollectionViewData
         sender.popIn()
         if sender.isSelected {
             UpdatePostData().updateLikes(post: posts[sender.tag], liked: true)
+            SendNotification().sendLikeNotification(to: posts[sender.tag].userId)
         } else {
             UpdatePostData().updateLikes(post: posts[sender.tag], liked: false)
         }
         
         if sender.isSelected {
+            posts[sender.tag].likes += 1
             if self.likedPosts.contains(posts[sender.tag].postId) == false {
                 self.likedPosts.append(posts[sender.tag].postId)
                 UserDefaults.standard.set(likedPosts, forKey: Constants.UserData.likedPosts)
             }
         } else {
+            posts[sender.tag].likes -= 1
             if let index = self.likedPosts.firstIndex(of: posts[sender.tag].postId) {
                 self.likedPosts.remove(at: index)
             }

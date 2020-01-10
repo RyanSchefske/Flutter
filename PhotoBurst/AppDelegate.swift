@@ -21,6 +21,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         UINavigationBar.appearance().tintColor = .black
         UINavigationBar.appearance().barTintColor = .white
         UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: Colors.blue, .font: UIFont(name: "Baskerville-BoldItalic", size: 25)!]
+        UINavigationBar.appearance().layer.masksToBounds = false
+        UINavigationBar.appearance().layer.shadowColor = UIColor.lightGray.cgColor
+        UINavigationBar.appearance().layer.shadowOpacity = 0.8
+        UINavigationBar.appearance().layer.shadowOffset = CGSize(width: 0, height: 2.0)
+        UINavigationBar.appearance().layer.shadowRadius = 2
         
         UIToolbar.appearance().isTranslucent = false
         UIToolbar.appearance().barTintColor = .white
@@ -53,6 +58,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
                 print("Remote instance ID token: \(result.token)")
             }
         }
+        
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
         
         return true
     }

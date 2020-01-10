@@ -10,10 +10,16 @@ import UIKit
 import FirebaseStorage
 import Firebase
 
-class FeedCollectionView: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class FeedCollectionView: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, GADUnifiedNativeAdLoaderDelegate {
     
     var screenSize = UIScreen.main.bounds
     var collectionView: UICollectionView?
+    
+    var ads = [GADUnifiedNativeAd]() {
+        didSet {
+            self.collectionView?.reloadData()
+        }
+    }
     
     var likedPosts = [String]()
     var blockedUsers = [String]()
@@ -22,6 +28,8 @@ class FeedCollectionView: UIView, UICollectionViewDelegate, UICollectionViewData
     var noPostsLabel = UILabel()
     
     var delegate: ProfileDelegate?
+    var adLoader: GADAdLoader?
+    var numAds = 0
     
     var posts = [Post]() {
         didSet {
@@ -42,6 +50,15 @@ class FeedCollectionView: UIView, UICollectionViewDelegate, UICollectionViewData
         blockedUsers = FetchUserData().fetchBlockedUsers()
         hiddenPosts = FetchUserData().fetchHiddenPosts()
         
+        let options = GADMultipleAdsAdLoaderOptions()
+        options.numberOfAds = 5
+        adLoader = GADAdLoader(adUnitID: "ca-app-pub-3940256099942544/3986624511",
+            rootViewController: FeedViewController(),
+            adTypes: [ GADAdLoaderAdType.unifiedNative ],
+            options: [options])
+        adLoader?.delegate = self
+        adLoader?.load(GADRequest())
+        
         if posts.count == 0 {
             showSpinner(onView: self)
         } else {
@@ -50,12 +67,11 @@ class FeedCollectionView: UIView, UICollectionViewDelegate, UICollectionViewData
     }
     
     func setup() {
-        self.backgroundColor = .white
-        
         collectionView = {
             let layout = UICollectionViewFlowLayout()
             let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
             cv.backgroundColor = .white
+            cv.register(NativeAdCell.self, forCellWithReuseIdentifier: "adCell")
             cv.register(FeedCollectionViewCell.self, forCellWithReuseIdentifier: "feedCell")
             cv.showsVerticalScrollIndicator = false
             cv.translatesAutoresizingMaskIntoConstraints = false
@@ -76,8 +92,8 @@ class FeedCollectionView: UIView, UICollectionViewDelegate, UICollectionViewData
             label.text = "No Posts Available. Follow your friends or click the Discover page below!"
             label.alpha = 0
             label.numberOfLines = 0
-            label.textAlignment = .center
             label.textColor = .black
+            label.textAlignment = .center
             label.center = self.center
             return label
         }()
@@ -89,10 +105,35 @@ class FeedCollectionView: UIView, UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return posts.count
+        return ads.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let nativeAd = ads[indexPath.row]
+        nativeAd.rootViewController = FeedViewController()
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "adCell", for: indexPath) as! NativeAdCell
+        
+        let adView = cell.adView
+        adView.nativeAd = nativeAd
+
+        cell.mediaView.mediaContent = nativeAd.mediaContent
+        cell.headline.text = nativeAd.headline
+        cell.price.text = nativeAd.price
+        if let starRating = nativeAd.starRating {
+          cell.rating.text =
+              starRating.description + "\u{2605}"
+        } else {
+            cell.rating.text = nil
+        }
+        cell.body.text = nativeAd.body
+        cell.advertiser.text = nativeAd.advertiser
+        cell.actionButton.isUserInteractionEnabled = false
+        cell.actionButton.setTitle(
+            nativeAd.callToAction, for: .normal)
+
+        /*
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "feedCell", for: indexPath) as! FeedCollectionViewCell
         
         let post = posts[indexPath.item]
@@ -114,9 +155,10 @@ class FeedCollectionView: UIView, UICollectionViewDelegate, UICollectionViewData
         
         cell.usernameLabel.text = post.username
         cell.dateLabel.text = FormatDate().formatDate(date: post.time)
-        cell.likeLabel.text = "\(post.likes)"
-                
+        cell.likeLabel.text = "\(post.likes)" */
+        
         return cell
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -222,6 +264,14 @@ class FeedCollectionView: UIView, UICollectionViewDelegate, UICollectionViewData
     
     @objc func getUserId(_ sender: UITapGestureRecognizer) {
         delegate?.profileTapped(userId: posts[sender.view!.tag].userId)
+    }
+    
+    func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADUnifiedNativeAd) {
+        ads.append(nativeAd)
+    }
+    
+    func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: GADRequestError) {
+        print("Error")
     }
     
     required init?(coder: NSCoder) {

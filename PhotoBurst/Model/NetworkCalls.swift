@@ -285,7 +285,7 @@ class SendNotification {
                 } else {
                     for document in querySnapshot!.documents {
                         if let token = document.data()["notificationToken"] {
-                            functions.httpsCallable("sendLikeNotification").call(["username": Auth.auth().currentUser!.displayName!, "text": token]) { (result, error) in
+                            functions.httpsCallable("sendFollowNotification").call(["username": Auth.auth().currentUser!.displayName!, "text": token]) { (result, error) in
                                 if let error = error as NSError? {
                                     if error.domain == FunctionsErrorDomain {
                                         let code = FunctionsErrorCode(rawValue: error.code)

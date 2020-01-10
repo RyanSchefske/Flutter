@@ -72,10 +72,9 @@ class FeedCollectionViewCell: UICollectionViewCell {
         
         likeButton = {
             let button = UIButton()
-            button.setImage(UIImage(named: "heart"), for: .normal)
+            let image = UIImage(named: "heart")
+            button.setImage(image, for: .normal)
             button.setImage(UIImage(named: "heartFilled"), for: .selected)
-            button.setTitle("1", for: .normal)
-            button.setTitleColor(.black, for: .normal)
             button.addTarget(FeedCollectionView(), action: #selector(FeedCollectionView().likeClicked(_:)), for: .touchUpInside)
             return button
         }()
@@ -84,22 +83,21 @@ class FeedCollectionViewCell: UICollectionViewCell {
             let label = UILabel()
             label.text = "0"
             label.font = UIFont.systemFont(ofSize: 15)
-            label.textAlignment = .left
             label.textColor = .black
+            label.textAlignment = .left
             return label
         }()
         
         commentButton = {
             let button = UIButton()
             button.setImage(UIImage(named: "comment"), for: .normal)
-            button.setTitleColor(.black, for: .normal)
             return button
         }()
         
         moreButton = {
             let button = UIButton()
-            button.setImage(UIImage(named: "more"), for: .normal)
-            button.setTitleColor(.black, for: .normal)
+            let image = UIImage(named: "more")
+            button.setImage(image, for: .normal)
             button.addTarget(FeedCollectionView(), action: #selector(FeedCollectionView().showReport(_:)), for: .touchUpInside)
             return button
         }()

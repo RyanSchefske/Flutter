@@ -42,6 +42,7 @@
 		3D906C3F23BEA24A0010AFEC /* ActionReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D906C3E23BEA24A0010AFEC /* ActionReport.swift */; };
 		3DB44F5023BFF552002EBB76 /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB44F4F23BFF552002EBB76 /* DiscoverViewController.swift */; };
 		3DB44F5223BFF76C002EBB76 /* ProfileCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB44F5123BFF76C002EBB76 /* ProfileCollectionView.swift */; };
+		3DB7524923C7E816003AD1BC /* NativeAdCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB7524823C7E816003AD1BC /* NativeAdCell.swift */; };
 		3DE3B0EE23AD7F8B0092BA46 /* FilterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE3B0ED23AD7F8B0092BA46 /* FilterCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -83,6 +84,7 @@
 		3D906C3E23BEA24A0010AFEC /* ActionReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionReport.swift; sourceTree = "<group>"; };
 		3DB44F4F23BFF552002EBB76 /* DiscoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewController.swift; sourceTree = "<group>"; };
 		3DB44F5123BFF76C002EBB76 /* ProfileCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCollectionView.swift; sourceTree = "<group>"; };
+		3DB7524823C7E816003AD1BC /* NativeAdCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeAdCell.swift; sourceTree = "<group>"; };
 		3DE3B0ED23AD7F8B0092BA46 /* FilterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCollectionViewCell.swift; sourceTree = "<group>"; };
 		539F12DD0831C48263AC2264 /* Pods-PhotoBurst.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoBurst.release.xcconfig"; path = "Target Support Files/Pods-PhotoBurst/Pods-PhotoBurst.release.xcconfig"; sourceTree = "<group>"; };
 		5B9A541E7F023F3DDE78AA5A /* Pods_PhotoBurst.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PhotoBurst.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -213,6 +215,7 @@
 				3DE3B0ED23AD7F8B0092BA46 /* FilterCollectionViewCell.swift */,
 				3D4A273623AEBE3700C77A9D /* FeedCollectionViewCell.swift */,
 				3D4A799923C41940001E5DB6 /* DiscoverCollectionViewCell.swift */,
+				3DB7524823C7E816003AD1BC /* NativeAdCell.swift */,
 				3D12231B23C130F100D5DE1C /* ProfileCollectionViewCell.swift */,
 				3D906C3823BE75000010AFEC /* SettingsTableCell.swift */,
 			);
@@ -394,6 +397,7 @@
 				3D275BE623AAC24D0020B7B5 /* SceneDelegate.swift in Sources */,
 				3D4A799623C41459001E5DB6 /* DiscoverCollectionView.swift in Sources */,
 				3D4A272C23AE962300C77A9D /* FeedViewController.swift in Sources */,
+				3DB7524923C7E816003AD1BC /* NativeAdCell.swift in Sources */,
 				3D906C3923BE75000010AFEC /* SettingsTableCell.swift in Sources */,
 				3D5A0D2F23BDA55000FA79C9 /* PopIn.swift in Sources */,
 				3D77F86E23BAB35D006FA81C /* Post.swift in Sources */,
@@ -541,7 +545,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3LN4LFZD99;
 				INFOPLIST_FILE = PhotoBurst/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -562,7 +566,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3LN4LFZD99;
 				INFOPLIST_FILE = PhotoBurst/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

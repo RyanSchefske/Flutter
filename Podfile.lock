@@ -164,6 +164,9 @@ PODS:
   - BoringSSL-GRPC/Implementation (0.0.3):
     - BoringSSL-GRPC/Interface (= 0.0.3)
   - BoringSSL-GRPC/Interface (0.0.3)
+  - Firebase/AdMob (6.14.0):
+    - Firebase/CoreOnly
+    - Google-Mobile-Ads-SDK (~> 7.50)
   - Firebase/Analytics (6.14.0):
     - Firebase/Core
   - Firebase/Auth (6.14.0):
@@ -256,6 +259,8 @@ PODS:
   - FirebaseUI/Storage (8.4.0):
     - Firebase/Storage (~> 6.0)
     - SDWebImage (~> 5.0)
+  - Google-Mobile-Ads-SDK (7.51.0):
+    - GoogleAppMeasurement (~> 6.0)
   - GoogleAppMeasurement (6.1.7):
     - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
     - GoogleUtilities/MethodSwizzler (~> 6.0)
@@ -314,6 +319,7 @@ PODS:
   - SDWebImage/Core (5.4.0)
 
 DEPENDENCIES:
+  - Firebase/AdMob
   - Firebase/Analytics
   - Firebase/Functions
   - Firebase/Messaging
@@ -343,6 +349,7 @@ SPEC REPOS:
     - FirebaseMessaging
     - FirebaseStorage
     - FirebaseUI
+    - Google-Mobile-Ads-SDK
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleDataTransportCCTSupport
@@ -374,6 +381,7 @@ SPEC CHECKSUMS:
   FirebaseMessaging: 089b7a4991425783384acc8bcefcd78c0af913bd
   FirebaseStorage: 93fe2f8190a01bfb2b2c4932df7d679744c4ef1d
   FirebaseUI: 433550cb9e3d03ec7ee2c25f87493f76358d9b68
+  Google-Mobile-Ads-SDK: 5c625884f0788d22b48e3bb641e1d65c673dc7a5
   GoogleAppMeasurement: db118eb61a97dd8c4f7014e368d3c335cbbcf80a
   GoogleDataTransport: 8e9b210c97d55fbff306cc5468ff91b9cb32dcf5
   GoogleDataTransportCCTSupport: 202d7cdf9c4a7d81a2bb7f7e7e1ba6faa421b1f2
@@ -387,6 +395,6 @@ SPEC CHECKSUMS:
   RSKImageCropper: a446db0e8444a036b34f3c43db01b2373baa4b2a
   SDWebImage: 5bf6aec6481ae2a062bdc59f9d6c1d1e552090e0
 
-PODFILE CHECKSUM: 257dfe0ed6dca4efdc97ab9f1204c5c37dcaadcb
+PODFILE CHECKSUM: 17e22a742f62c8ad16736900605a11597d03b081
 
 COCOAPODS: 1.8.3

@@ -43,7 +43,7 @@ class FetchUserData {
         } else {
             UserDefaults.standard.set([], forKey: Constants.UserData.following)
         }
-        return []
+        return [Auth.auth().currentUser!.uid]
     }
 }
 

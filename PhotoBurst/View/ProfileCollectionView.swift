@@ -131,6 +131,7 @@ class ProfileCollectionView: UIView, UICollectionViewDelegate, UICollectionViewD
             
             cell.usernameLabel.text = post.username
             cell.dateLabel.text = FormatDate().formatDate(date: post.time)
+            cell.likeLabel.text = "\(post.likes)"
             
             return cell
         }
@@ -245,11 +246,13 @@ class ProfileCollectionView: UIView, UICollectionViewDelegate, UICollectionViewD
         }
         
         if sender.isSelected {
+            posts[sender.tag].likes += 1
             if self.likedPosts.contains(posts[sender.tag].postId) == false {
                 self.likedPosts.append(posts[sender.tag].postId)
                 UserDefaults.standard.set(likedPosts, forKey: Constants.UserData.likedPosts)
             }
         } else {
+            posts[sender.tag].likes -= 1
             if let index = self.likedPosts.firstIndex(of: posts[sender.tag].postId) {
                 self.likedPosts.remove(at: index)
             }

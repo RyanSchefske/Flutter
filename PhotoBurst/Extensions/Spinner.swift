@@ -15,7 +15,6 @@ extension UIView {
         let spinnerView = UIView.init(frame: onView.bounds)
         let ai = UIActivityIndicatorView.init(style: .large)
         ai.startAnimating()
-        ai.color = .black
         ai.center.x = onView.center.x
         ai.center.y = onView.frame.height / 3
         

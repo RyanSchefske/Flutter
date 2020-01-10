@@ -147,6 +147,7 @@ class UserInfoViewController: UIViewController, UIImagePickerControllerDelegate,
         if changed {
             SaveUserInfo().updateProfilePicture(view: self.view, picture: picture)
             SaveUserInfo().updateUserInfo(username: text)
+            self.navigationController?.pushViewController(FeedViewController(), animated: true)
         } else {
             view.showSpinner(onView: view)
             SaveUserInfo().updateUserInfo(username: text)

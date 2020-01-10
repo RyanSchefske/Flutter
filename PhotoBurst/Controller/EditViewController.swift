@@ -11,8 +11,9 @@ import CoreImage
 import FirebaseStorage
 import FirebaseUI
 import FirebaseFirestore
+import GoogleMobileAds
 
-class EditViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class EditViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, GADInterstitialDelegate {
     
     var passedImages = [UIImage]()
     var photoUrls = [String]()
@@ -22,6 +23,8 @@ class EditViewController: UIViewController, UICollectionViewDelegate, UICollecti
     let filterNames = ["Original", "Chrome", "Fade", "Instant", "Mono", "Noir", "Process", "Tonal", "Transfer"]
     var filteredImages = [UIImage]()
     var filterClicked = [UIImage]()
+    
+    var interstitial: GADInterstitial!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +41,8 @@ class EditViewController: UIViewController, UICollectionViewDelegate, UICollecti
     func setup() {
         view.backgroundColor = .white
         title = "Edit"
+        
+        interstitial = createAndLoadInterstitial()
         
         filterImages()
         filterClicked = passedImages
@@ -82,6 +87,12 @@ class EditViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let storageRef = Storage.storage().reference()
         let db = Firestore.firestore()
         let uid = Auth.auth().currentUser!.uid
+        
+        if interstitial.isReady {
+          interstitial.present(fromRootViewController: self)
+        } else {
+          print("Ad wasn't ready")
+        }
         
         let dispatchGroup = DispatchGroup()
         let dispatchQueue = DispatchQueue(label: "upload")
@@ -210,6 +221,17 @@ class EditViewController: UIViewController, UICollectionViewDelegate, UICollecti
             }
         }
         animatePhotos(images: filterClicked)
+    }
+    
+    func createAndLoadInterstitial() -> GADInterstitial {
+        let interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+      interstitial.delegate = self
+      interstitial.load(GADRequest())
+      return interstitial
+    }
+
+    func interstitialDidDismissScreen(_ ad: GADInterstitial) {
+      interstitial = createAndLoadInterstitial()
     }
 }
 

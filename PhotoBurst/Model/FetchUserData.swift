@@ -41,7 +41,7 @@ class FetchUserData {
         if let following = UserDefaults.standard.stringArray(forKey: Constants.UserData.following) {
             return following
         } else {
-            UserDefaults.standard.set([], forKey: Constants.UserData.following)
+            UserDefaults.standard.set([Auth.auth().currentUser!.uid], forKey: Constants.UserData.following)
         }
         return [Auth.auth().currentUser!.uid]
     }

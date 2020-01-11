@@ -103,9 +103,9 @@ class FeedCollectionView: UIView, UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        if let post = posts[indexPath.item] as? GADUnifiedNativeAd {
+        if let _ = posts[indexPath.item] as? GADUnifiedNativeAd {
             let nativeAd = posts[indexPath.row] as! GADUnifiedNativeAd
-            nativeAd.rootViewController = FeedViewController()
+            nativeAd.rootViewController = DiscoverViewController()
 
             let nativeAdCell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "adCell", for: indexPath)
@@ -201,13 +201,12 @@ class FeedCollectionView: UIView, UICollectionViewDelegate, UICollectionViewData
                     print("Error: \(error!.localizedDescription)")
                 } else {
                     if querySnapshot!.documents.count == 0 {
-                        self.noPostsLabel.alpha = 1
                         self.removeSpinner()
                         return
                     } else {
                         for document in querySnapshot!.documents {
                             let data = document.data()
-                            if self.posts.contains(where: { ($0 as? Post)?.postId == data["postId"] as! String}) {
+                            if self.posts.contains(where: { ($0 as? Post)?.postId == data["postId"] as? String}) {
                                 continue
                             }
                             if let array = data["photos"] as? [String] {
@@ -260,13 +259,19 @@ class FeedCollectionView: UIView, UICollectionViewDelegate, UICollectionViewData
         }
         
         if sender.isSelected {
-            //(posts[sender.tag] as! Post).likes += 1
+            if var post = posts[sender.tag] as? Post {
+                post.likes += 1
+                posts[sender.tag] = post
+            }
             if self.likedPosts.contains((posts[sender.tag] as! Post).postId) == false {
                 self.likedPosts.append((posts[sender.tag] as! Post).postId)
                 UserDefaults.standard.set(likedPosts, forKey: Constants.UserData.likedPosts)
             }
         } else {
-            //(posts[sender.tag] as! Post).likes -= 1
+            if var post = posts[sender.tag] as? Post {
+                post.likes -= 1
+                posts[sender.tag] = post
+            }
             if let index = self.likedPosts.firstIndex(of: (posts[sender.tag] as! Post).postId) {
                 self.likedPosts.remove(at: index)
             }

@@ -41,7 +41,7 @@ extension FeedCollectionView {
 
 extension DiscoverCollectionView {
     @objc func showReport(_ sender: UIButton) {
-        let postId = posts[sender.tag].postId
+        let postId = (posts[sender.tag] as! Post).postId
         let moreMenu = UIAlertController(title: nil, message: "Choose Action", preferredStyle: .actionSheet)
             
         let reportAction = UIAlertAction(title: "Report", style: .default, handler: { _ in
@@ -49,7 +49,7 @@ extension DiscoverCollectionView {
         })
         
         let blockAction = UIAlertAction(title: "Block User", style: .default, handler: { _ in
-            UpdateUserData().blockUser(userId: self.posts[sender.tag].userId)
+            UpdateUserData().blockUser(userId: (self.posts[sender.tag] as! Post).userId)
         })
         
         let hideAction = UIAlertAction(title: "Hide Post", style: .default, handler: { _ in

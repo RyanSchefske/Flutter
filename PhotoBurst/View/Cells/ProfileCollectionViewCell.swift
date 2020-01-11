@@ -18,6 +18,10 @@ class ProfileCollectionViewCell: UICollectionViewCell {
     var profilePicture = UIImageView()
     var scrollLabel = UILabel()
     
+    var followersCircle = UIView()
+    var followingCircle = UIView()
+    var postsCircle = UIView()
+    
     var stackView = UIStackView()
     
     override init(frame: CGRect) {
@@ -77,7 +81,7 @@ class ProfileCollectionViewCell: UICollectionViewCell {
         followButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         followButton.widthAnchor.constraint(equalToConstant: self.frame.width / 1.75).isActive = true
         
-        let followersCircle: UIView = {
+        followersCircle = {
             let view = UIView()
             view.backgroundColor = Colors.blue
             view.layer.shadowColor = UIColor.lightGray.cgColor
@@ -94,7 +98,7 @@ class ProfileCollectionViewCell: UICollectionViewCell {
         followersCircle.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 30).isActive = true
         followersCircle.topAnchor.constraint(equalTo: followButton.bottomAnchor, constant: 30).isActive = true
         
-        let followingCircle: UIView = {
+        followingCircle = {
             let view = UIView()
             view.backgroundColor = Colors.blue
             view.layer.shadowColor = UIColor.lightGray.cgColor
@@ -111,7 +115,7 @@ class ProfileCollectionViewCell: UICollectionViewCell {
         followingCircle.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         followingCircle.topAnchor.constraint(equalTo: followersCircle.centerYAnchor, constant: 20).isActive = true
         
-        let postsCircle: UIView = {
+        postsCircle = {
             let view = UIView()
             view.backgroundColor = Colors.blue
             view.layer.shadowColor = UIColor.lightGray.cgColor
@@ -193,6 +197,16 @@ class ProfileCollectionViewCell: UICollectionViewCell {
         scrollLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         scrollLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
         scrollLabel.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
+    }
+    
+    func animateCircles() {
+        followersCircle.topAnchor.constraint(equalTo: followButton.bottomAnchor, constant: 30).isActive = true
+        
+        UIView.animate(withDuration: 0.6, delay: 0.25, usingSpringWithDamping: 0.55, initialSpringVelocity: 3, options: .curveEaseOut, animations: {
+            self.didMoveToSuperview()
+        }, completion: nil)
+        //followingCircle.topAnchor.constraint(equalTo: followersCircle.centerYAnchor, constant: 20).isActive = true
+        //postsCircle.topAnchor.constraint(equalTo: followersCircle.topAnchor).isActive = true
     }
     
     required init?(coder: NSCoder) {

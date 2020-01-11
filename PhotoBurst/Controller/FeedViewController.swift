@@ -20,6 +20,16 @@ class FeedViewController: UIViewController, ProfileDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setup()
+    }
+    
+    func setup() {
+        let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
+        if !launchedBefore  {
+            firstLaunchAlert()
+            UserDefaults.standard.set(true, forKey: "launchedBefore")
+        }
+        
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
         title = "Flutter"
         
@@ -50,6 +60,21 @@ class FeedViewController: UIViewController, ProfileDelegate {
         let vc = ProfileViewController()
         vc.userId = userId
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func firstLaunchAlert() {
+        let alert = UIAlertController(title: "Terms of Use", message: """
+            By using this app, you agree to the terms of use found in settings and on the company website.
+            """, preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Agree", style: .default, handler: { (action) in
+        }))
+        
+        //If user declines, alert will be shown again
+        alert.addAction(UIAlertAction(title: "Decline", style: .default, handler: { (action) in
+            self.firstLaunchAlert()
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
     
     @objc func showSettings() {

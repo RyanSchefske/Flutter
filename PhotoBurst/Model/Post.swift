@@ -18,4 +18,12 @@ struct Post: Equatable {
     var photos: [UIImage]
     var reports: Int
     var liked: Bool
+    
+    mutating func addLike() {
+        self.likes += 1
+    }
+    
+    mutating func subtractLike() {
+        self.likes -= 1
+    }
 }

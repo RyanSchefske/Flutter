@@ -22,7 +22,7 @@ class SettingsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
         
         if indexPath.row == 0 {
-            cell.textLabel?.text = "Privacy Policy"
+            cell.textLabel?.text = "Privacy Policy/Terms and Conditions"
             cell.textLabel?.textColor = Colors.blue
         } else if indexPath.row == 1 {
             cell.textLabel?.text = "Change Username"

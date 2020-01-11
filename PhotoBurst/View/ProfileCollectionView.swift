@@ -117,8 +117,8 @@ class ProfileCollectionView: UIView, UICollectionViewDelegate, UICollectionViewD
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "feedCell", for: indexPath) as! FeedCollectionViewCell
             let post = posts[indexPath.item - 1]
-            cell.moreButton.tag = indexPath.item
-            cell.likeButton.tag = indexPath.item
+            cell.moreButton.tag = indexPath.item - 1
+            cell.likeButton.tag = indexPath.item - 1
             
             if likedPosts.contains(post.postId) {
                 cell.likeButton.isSelected = true
@@ -241,6 +241,7 @@ class ProfileCollectionView: UIView, UICollectionViewDelegate, UICollectionViewD
         sender.popIn()
         if sender.isSelected {
             UpdatePostData().updateLikes(post: posts[sender.tag], liked: true)
+            SendNotification().sendLikeNotification(to: posts[sender.tag].userId)
         } else {
             UpdatePostData().updateLikes(post: posts[sender.tag], liked: false)
         }

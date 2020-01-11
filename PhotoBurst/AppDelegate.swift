@@ -17,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+        
         UINavigationBar.appearance().isTranslucent = false
         UINavigationBar.appearance().tintColor = .black
         UINavigationBar.appearance().barTintColor = .white

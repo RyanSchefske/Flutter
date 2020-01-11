@@ -28,20 +28,21 @@ class ProfileCollectionViewCell: UICollectionViewCell {
     
     func setup() {
         backgroundColor = .white
+        let circleWidth = self.frame.width / 3.75
         
         profilePicture = {
             let iv = UIImageView()
             iv.backgroundColor = .lightGray
             iv.image = UIImage(named: "user")
-            iv.layer.cornerRadius = 50
+            iv.layer.cornerRadius = circleWidth / 2
             iv.translatesAutoresizingMaskIntoConstraints = false
             return iv
         }()
         addSubview(profilePicture)
         
-        profilePicture.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        profilePicture.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        profilePicture.topAnchor.constraint(equalTo: self.topAnchor, constant: 100).isActive = true
+        profilePicture.heightAnchor.constraint(equalToConstant: circleWidth).isActive = true
+        profilePicture.widthAnchor.constraint(equalToConstant: circleWidth).isActive = true
+        profilePicture.topAnchor.constraint(equalTo: self.topAnchor, constant: 75).isActive = true
         profilePicture.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         
         usernameLabel = {
@@ -64,6 +65,7 @@ class ProfileCollectionViewCell: UICollectionViewCell {
             button.setTitle("Follow", for: .normal)
             button.backgroundColor = Colors.blue
             button.layer.cornerRadius = 5
+            button.titleLabel?.font = UIFont.systemFont(ofSize: 20)
             button.addTarget(ProfileCollectionView(), action: #selector(ProfileCollectionView().followClicked), for: .touchUpInside)
             button.translatesAutoresizingMaskIntoConstraints = false
             return button
@@ -72,53 +74,110 @@ class ProfileCollectionViewCell: UICollectionViewCell {
         
         followButton.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 15).isActive = true
         followButton.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        followButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        followButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         followButton.widthAnchor.constraint(equalToConstant: self.frame.width / 1.75).isActive = true
+        
+        let followersCircle: UIView = {
+            let view = UIView()
+            view.backgroundColor = Colors.blue
+            view.layer.shadowColor = UIColor.lightGray.cgColor
+            view.layer.shadowOpacity = 0.8
+            view.layer.shadowOffset = CGSize(width: 0, height: 5)
+            view.layer.cornerRadius = circleWidth / 2
+            view.translatesAutoresizingMaskIntoConstraints = false
+            return view
+        }()
+        addSubview(followersCircle)
+        
+        followersCircle.widthAnchor.constraint(equalToConstant: circleWidth).isActive = true
+        followersCircle.heightAnchor.constraint(equalToConstant: circleWidth).isActive = true
+        followersCircle.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 30).isActive = true
+        followersCircle.topAnchor.constraint(equalTo: followButton.bottomAnchor, constant: 30).isActive = true
+        
+        let followingCircle: UIView = {
+            let view = UIView()
+            view.backgroundColor = Colors.blue
+            view.layer.shadowColor = UIColor.lightGray.cgColor
+            view.layer.shadowOpacity = 0.8
+            view.layer.shadowOffset = CGSize(width: 0, height: 5)
+            view.layer.cornerRadius = circleWidth / 2
+            view.translatesAutoresizingMaskIntoConstraints = false
+            return view
+        }()
+        addSubview(followingCircle)
+        
+        followingCircle.widthAnchor.constraint(equalToConstant: circleWidth).isActive = true
+        followingCircle.heightAnchor.constraint(equalToConstant: circleWidth).isActive = true
+        followingCircle.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        followingCircle.topAnchor.constraint(equalTo: followersCircle.centerYAnchor, constant: 20).isActive = true
+        
+        let postsCircle: UIView = {
+            let view = UIView()
+            view.backgroundColor = Colors.blue
+            view.layer.shadowColor = UIColor.lightGray.cgColor
+            view.layer.shadowOpacity = 0.8
+            view.layer.shadowOffset = CGSize(width: 0, height: 5)
+            view.layer.cornerRadius = circleWidth / 2
+            view.translatesAutoresizingMaskIntoConstraints = false
+            return view
+        }()
+        addSubview(postsCircle)
+        
+        postsCircle.widthAnchor.constraint(equalToConstant: circleWidth).isActive = true
+        postsCircle.heightAnchor.constraint(equalToConstant: circleWidth).isActive = true
+        postsCircle.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -30).isActive = true
+        postsCircle.topAnchor.constraint(equalTo: followersCircle.topAnchor).isActive = true
         
         followersLabel = {
             let label = UILabel()
-            label.text = "Followers: 0"
-            label.textColor = .black
+            label.text = "0\nFollowers"
+            label.font = UIFont.boldSystemFont(ofSize: 18)
+            label.numberOfLines = 2
+            label.textColor = .white
             label.textAlignment = .center
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
         }()
-        addSubview(followersLabel)
+        followersCircle.addSubview(followersLabel)
         
-        followersLabel.topAnchor.constraint(equalTo: followButton.bottomAnchor, constant: 10).isActive = true
-        followersLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        followersLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        followersLabel.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
+        followersLabel.topAnchor.constraint(equalTo: followersCircle.topAnchor).isActive = true
+        followersLabel.centerXAnchor.constraint(equalTo: followersCircle.centerXAnchor).isActive = true
+        followersLabel.heightAnchor.constraint(equalToConstant: circleWidth).isActive = true
+        followersLabel.widthAnchor.constraint(equalToConstant: circleWidth).isActive = true
         
         followingLabel = {
             let label = UILabel()
-            label.text = "Following: 0"
-            label.textColor = .black
+            label.text = " 0\nFollowing"
+            label.font = UIFont.boldSystemFont(ofSize: 18)
+            label.numberOfLines = 2
+            label.textColor = .white
             label.textAlignment = .center
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
         }()
-        addSubview(followingLabel)
+        followingCircle.addSubview(followingLabel)
         
-        followingLabel.topAnchor.constraint(equalTo: followersLabel.bottomAnchor, constant: 10).isActive = true
-        followingLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        followingLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        followingLabel.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
+        followingLabel.topAnchor.constraint(equalTo: followingCircle.topAnchor).isActive = true
+        followingLabel.centerXAnchor.constraint(equalTo: followingCircle.centerXAnchor).isActive = true
+        followingLabel.heightAnchor.constraint(equalToConstant: circleWidth).isActive = true
+        followingLabel.widthAnchor.constraint(equalToConstant: circleWidth).isActive = true
         
         postsLabel = {
             let label = UILabel()
-            label.text = "Posts: 0"
-            label.textColor = .black
+            label.text = "0\nPosts"
+            label.textColor = .white
+            label.font = UIFont.boldSystemFont(ofSize: 18)
+            label.numberOfLines = 2
             label.textAlignment = .center
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
         }()
-        addSubview(postsLabel)
+        postsCircle.addSubview(postsLabel)
         
-        postsLabel.topAnchor.constraint(equalTo: followingLabel.bottomAnchor, constant: 10).isActive = true
-        postsLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        postsLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        postsLabel.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
+        postsLabel.topAnchor.constraint(equalTo: postsCircle.topAnchor).isActive = true
+        postsLabel.centerXAnchor.constraint(equalTo: postsCircle.centerXAnchor).isActive = true
+        postsLabel.heightAnchor.constraint(equalToConstant: circleWidth).isActive = true
+        postsLabel.widthAnchor.constraint(equalToConstant: circleWidth).isActive = true
         
         scrollLabel = {
             let label = UILabel()

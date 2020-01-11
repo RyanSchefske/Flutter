@@ -15,23 +15,17 @@ class FeedCollectionView: UIView, UICollectionViewDelegate, UICollectionViewData
     var screenSize = UIScreen.main.bounds
     var collectionView: UICollectionView?
     
-    var ads = [GADUnifiedNativeAd]() {
-        didSet {
-            self.collectionView?.reloadData()
-        }
-    }
-    
     var likedPosts = [String]()
     var blockedUsers = [String]()
     var hiddenPosts = [String]()
     var following = [String]()
     var noPostsLabel = UILabel()
     
+    var nativeAdView = GADUnifiedNativeAdView()
     var delegate: ProfileDelegate?
-    var adLoader: GADAdLoader?
-    var numAds = 0
+    var adLoader = GADAdLoader()
     
-    var posts = [Post]() {
+    var posts = [Any]() {
         didSet {
             removeSpinner()
             self.collectionView?.reloadData()
@@ -51,13 +45,12 @@ class FeedCollectionView: UIView, UICollectionViewDelegate, UICollectionViewData
         hiddenPosts = FetchUserData().fetchHiddenPosts()
         
         let options = GADMultipleAdsAdLoaderOptions()
-        options.numberOfAds = 5
-        adLoader = GADAdLoader(adUnitID: "ca-app-pub-3940256099942544/3986624511",
+        options.numberOfAds = 1
+        adLoader = GADAdLoader(adUnitID: "ca-app-pub-2392719817363402/3341398265",
             rootViewController: FeedViewController(),
             adTypes: [ GADAdLoaderAdType.unifiedNative ],
             options: [options])
-        adLoader?.delegate = self
-        adLoader?.load(GADRequest())
+        adLoader.delegate = self
         
         if posts.count == 0 {
             showSpinner(onView: self)
@@ -71,7 +64,7 @@ class FeedCollectionView: UIView, UICollectionViewDelegate, UICollectionViewData
             let layout = UICollectionViewFlowLayout()
             let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
             cv.backgroundColor = .white
-            cv.register(NativeAdCell.self, forCellWithReuseIdentifier: "adCell")
+            cv.register(UINib(nibName: "UnifiedNativeAdView", bundle: nil), forCellWithReuseIdentifier: "adCell")
             cv.register(FeedCollectionViewCell.self, forCellWithReuseIdentifier: "feedCell")
             cv.showsVerticalScrollIndicator = false
             cv.translatesAutoresizingMaskIntoConstraints = false
@@ -105,60 +98,72 @@ class FeedCollectionView: UIView, UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return ads.count
+        return posts.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let nativeAd = ads[indexPath.row]
-        nativeAd.rootViewController = FeedViewController()
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "adCell", for: indexPath) as! NativeAdCell
-        
-        let adView = cell.adView
-        adView.nativeAd = nativeAd
+        if let post = posts[indexPath.item] as? GADUnifiedNativeAd {
+            let nativeAd = posts[indexPath.row] as! GADUnifiedNativeAd
+            nativeAd.rootViewController = FeedViewController()
 
-        cell.mediaView.mediaContent = nativeAd.mediaContent
-        cell.headline.text = nativeAd.headline
-        cell.price.text = nativeAd.price
-        if let starRating = nativeAd.starRating {
-          cell.rating.text =
-              starRating.description + "\u{2605}"
-        } else {
-            cell.rating.text = nil
-        }
-        cell.body.text = nativeAd.body
-        cell.advertiser.text = nativeAd.advertiser
-        cell.actionButton.isUserInteractionEnabled = false
-        cell.actionButton.setTitle(
-            nativeAd.callToAction, for: .normal)
+            let nativeAdCell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "adCell", for: indexPath)
+            
+            let adView : GADUnifiedNativeAdView = nativeAdCell.contentView.subviews
+              .first as! GADUnifiedNativeAdView
 
-        /*
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "feedCell", for: indexPath) as! FeedCollectionViewCell
-        
-        let post = posts[indexPath.item]
-        cell.moreButton.tag = indexPath.item
-        cell.likeButton.tag = indexPath.item
-        
-        let tap = UITapGestureRecognizer(target: self, action: #selector(getUserId(_:)))
-        cell.usernameLabel.addGestureRecognizer(tap)
-        cell.usernameLabel.tag = indexPath.item
-        
-        if likedPosts.contains(post.postId) {
-            cell.likeButton.isSelected = true
+            adView.nativeAd = nativeAd
+            (adView.headlineView as! UILabel).text = nativeAd.headline
+            (adView.priceView as! UILabel).text = nativeAd.price
+            if let starRating = nativeAd.starRating {
+              (adView.starRatingView as! UILabel).text =
+                  starRating.description + "\u{2605}"
+            } else {
+              (adView.starRatingView as! UILabel).text = nil
+            }
+            if let store = nativeAd.store {
+                (adView.storeView as! UILabel).text = store
+            } else {
+                (adView.storeView as! UILabel).text = nil
+            }
+            if let icon = nativeAd.icon?.image {
+                (adView.iconView as! UIImageView).image = icon
+            }
+            (adView.mediaView!).mediaContent = nativeAd.mediaContent
+            (adView.bodyView as! UILabel).text = nativeAd.body
+            (adView.advertiserView as! UILabel).text = nativeAd.advertiser
+            (adView.callToActionView as! UIButton).isUserInteractionEnabled = false
+            (adView.callToActionView as! UIButton).setTitle(
+                nativeAd.callToAction, for: UIControl.State.normal)
+
+            return nativeAdCell
         } else {
-            cell.likeButton.isSelected = false
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "feedCell", for: indexPath) as! FeedCollectionViewCell
+            
+            let post = posts[indexPath.item] as! Post
+            cell.moreButton.tag = indexPath.item
+            cell.likeButton.tag = indexPath.item
+            
+            let tap = UITapGestureRecognizer(target: self, action: #selector(getUserId(_:)))
+            cell.usernameLabel.addGestureRecognizer(tap)
+            cell.usernameLabel.tag = indexPath.item
+            
+            if likedPosts.contains(post.postId) {
+                cell.likeButton.isSelected = true
+            } else {
+                cell.likeButton.isSelected = false
+            }
+            
+            cell.imageView.image = UIImage.animatedImage(with: post.photos, duration: 0.75)
+            cell.imageView.startAnimating()
+            
+            cell.usernameLabel.text = post.username
+            cell.dateLabel.text = FormatDate().formatDate(date: post.time)
+            cell.likeLabel.text = "\(post.likes)"
+            
+            return cell
         }
-        
-        cell.imageView.image = UIImage.animatedImage(with: post.photos, duration: 0.75)
-        cell.imageView.startAnimating()
-        
-        cell.usernameLabel.text = post.username
-        cell.dateLabel.text = FormatDate().formatDate(date: post.time)
-        cell.likeLabel.text = "\(post.likes)" */
-        
-        return cell
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -171,7 +176,11 @@ class FeedCollectionView: UIView, UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if indexPath.item == posts.count - 1 {
-            loadPosts(date: posts[posts.count - 1].time)
+            if let post = posts[posts.count - 1] as? Post {
+                loadPosts(date: post.time)
+            } else if let post = posts[posts.count - 2] as? Post {
+                loadPosts(date: post.time)
+            }
         }
     }
     
@@ -198,7 +207,7 @@ class FeedCollectionView: UIView, UICollectionViewDelegate, UICollectionViewData
                     } else {
                         for document in querySnapshot!.documents {
                             let data = document.data()
-                            if self.posts.contains(where: { $0.postId == data["postId"] as! String}) {
+                            if self.posts.contains(where: { ($0 as? Post)?.postId == data["postId"] as! String}) {
                                 continue
                             }
                             if let array = data["photos"] as? [String] {
@@ -219,8 +228,11 @@ class FeedCollectionView: UIView, UICollectionViewDelegate, UICollectionViewData
                                                         let timestamp: Timestamp = data["time"] as! Timestamp
                                                         let time: Date = timestamp.dateValue()
                                                         let post = Post(username: data["username"] as! String, userId: data["userId"] as! String, postId: data["postId"] as! String, time: time, likes: data["likes"] as! Int, comments: data["comments"] as! Int, photos: postImages, reports: data["reports"] as! Int, liked: false)
-                                                        if self.posts.contains(where: { $0.postId == post.postId }) == false && self.blockedUsers.contains(post.userId) == false && self.hiddenPosts.contains(post.postId) == false {
+                                                        if self.posts.contains(where: { ($0 as? Post)?.postId == post.postId }) == false && self.blockedUsers.contains(post.userId) == false && self.hiddenPosts.contains(post.postId) == false {
                                                             self.posts.append(post)
+                                                        }
+                                                        if self.posts.count % 4 == 0 {
+                                                            self.adLoader.load(GADRequest())
                                                         }
                                                         postImages = [UIImage]()
                                                     }
@@ -241,21 +253,21 @@ class FeedCollectionView: UIView, UICollectionViewDelegate, UICollectionViewData
     @objc func likeClicked(_ sender: UIButton) {
         sender.popIn()
         if sender.isSelected {
-            UpdatePostData().updateLikes(post: posts[sender.tag], liked: true)
-            SendNotification().sendLikeNotification(to: posts[sender.tag].userId)
+            UpdatePostData().updateLikes(post: posts[sender.tag] as! Post, liked: true)
+            SendNotification().sendLikeNotification(to: (posts[sender.tag] as! Post).userId)
         } else {
-            UpdatePostData().updateLikes(post: posts[sender.tag], liked: false)
+            UpdatePostData().updateLikes(post: posts[sender.tag] as! Post, liked: false)
         }
         
         if sender.isSelected {
-            posts[sender.tag].likes += 1
-            if self.likedPosts.contains(posts[sender.tag].postId) == false {
-                self.likedPosts.append(posts[sender.tag].postId)
+            //(posts[sender.tag] as! Post).likes += 1
+            if self.likedPosts.contains((posts[sender.tag] as! Post).postId) == false {
+                self.likedPosts.append((posts[sender.tag] as! Post).postId)
                 UserDefaults.standard.set(likedPosts, forKey: Constants.UserData.likedPosts)
             }
         } else {
-            posts[sender.tag].likes -= 1
-            if let index = self.likedPosts.firstIndex(of: posts[sender.tag].postId) {
+            //(posts[sender.tag] as! Post).likes -= 1
+            if let index = self.likedPosts.firstIndex(of: (posts[sender.tag] as! Post).postId) {
                 self.likedPosts.remove(at: index)
             }
             UserDefaults.standard.set(self.likedPosts, forKey: Constants.UserData.likedPosts)
@@ -263,15 +275,17 @@ class FeedCollectionView: UIView, UICollectionViewDelegate, UICollectionViewData
     }
     
     @objc func getUserId(_ sender: UITapGestureRecognizer) {
-        delegate?.profileTapped(userId: posts[sender.view!.tag].userId)
+        delegate?.profileTapped(userId: (posts[sender.view!.tag] as! Post).userId)
     }
     
     func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADUnifiedNativeAd) {
-        ads.append(nativeAd)
+        print("Received")
+        posts.append(nativeAd)
+        
     }
     
     func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: GADRequestError) {
-        print("Error")
+        print("Error: \(error)")
     }
     
     required init?(coder: NSCoder) {

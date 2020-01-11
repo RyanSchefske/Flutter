@@ -32,5 +32,7 @@
 	<string>1:40648478632:ios:44d4f4558153f9a7db179d</string>
 	<key>DATABASE_URL</key>
 	<string>https://flutter-a4c64.firebaseio.com</string>
+	<key>ADMOB_APP_ID</key>
+	<string>ca-app-pub-2392719817363402~3302989377</string>
 </dict>
 </plist>

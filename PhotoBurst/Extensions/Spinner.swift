@@ -11,22 +11,25 @@ import UIKit
 var spinner = UIView()
 
 extension UIView {
-    func showSpinner(onView: UIView) {
-        let spinnerView = UIView.init(frame: onView.bounds)
+    func showSpinner(onView view: UIView) {
+        view.isUserInteractionEnabled = false
+        let spinnerView = UIView.init(frame: view.bounds)
         let ai = UIActivityIndicatorView.init(style: .large)
         ai.startAnimating()
-        ai.center.x = onView.center.x
-        ai.center.y = onView.frame.height / 3
+        ai.color = .gray
+        ai.center.x = view.center.x
+        ai.center.y = view.frame.height / 3
         
         DispatchQueue.main.async {
             spinnerView.addSubview(ai)
-            onView.addSubview(spinnerView)
+            view.addSubview(spinnerView)
         }
         
         spinner = spinnerView
     }
     
     func removeSpinner() {
+        self.isUserInteractionEnabled = true
         DispatchQueue.main.async {
             spinner.removeFromSuperview()
             spinner.isHidden = true

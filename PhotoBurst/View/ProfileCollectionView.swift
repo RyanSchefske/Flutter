@@ -107,9 +107,9 @@ class ProfileCollectionView: UIView, UICollectionViewDelegate, UICollectionViewD
                     cell.followButton.setTitle("Follow", for: .normal)
                 }
                 cell.usernameLabel.text = user.username
-                cell.followersLabel.text = "Followers: \(user.followers.count)"
-                cell.followingLabel.text = "Following: \(user.following.count)"
-                cell.postsLabel.text = "Posts: \(user.posts)"
+                cell.followersLabel.text = "\(user.followers.count)\nFollowers"
+                cell.followingLabel.text = "\(user.following.count)\nFollowing"
+                cell.postsLabel.text = "\(user.posts)\nPosts"
                 cell.profilePicture.image = profilePicture
                 cell.profilePicture.clipsToBounds = true
             }

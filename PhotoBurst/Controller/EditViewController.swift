@@ -84,14 +84,16 @@ class EditViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     @objc func post() {
         self.view.showSpinner(onView: self.view)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        navigationItem.rightBarButtonItem = nil
         let storageRef = Storage.storage().reference()
         let db = Firestore.firestore()
         let uid = Auth.auth().currentUser!.uid
         
         if interstitial.isReady {
-          interstitial.present(fromRootViewController: self)
+            interstitial.present(fromRootViewController: self)
         } else {
-          print("Ad wasn't ready")
+            print("Ad wasn't ready")
         }
         
         let dispatchGroup = DispatchGroup()
@@ -224,7 +226,7 @@ class EditViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     func createAndLoadInterstitial() -> GADInterstitial {
-        let interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+        let interstitial = GADInterstitial(adUnitID: "ca-app-pub-2392719817363402/4859629534")
       interstitial.delegate = self
       interstitial.load(GADRequest())
       return interstitial

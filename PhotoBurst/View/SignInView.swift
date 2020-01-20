@@ -21,7 +21,7 @@ class SignInView: UIView {
     }
     
     func setup() {
-        self.backgroundColor = .white
+        self.backgroundColor = .black
         
         titleLabel = {
             let label = UILabel(frame: CGRect(x: 0, y: 50, width: self.frame.width, height: self.frame.height / 4))

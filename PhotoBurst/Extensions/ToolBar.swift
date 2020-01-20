@@ -16,14 +16,15 @@ extension UIViewController {
         items.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil))
         items.append(UIBarButtonItem(image: UIImage(named: "search")?.withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(searchClicked)))
         items.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil))
-        items.append(UIBarButtonItem(image: UIImage(named: "butterfly")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(cameraClicked)))
+        items.append(UIBarButtonItem(image: UIImage(named: "new")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(cameraClicked)))
         items.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil))
         items.append(UIBarButtonItem(image: UIImage(named: "compass")?.withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(discoverClicked)))
         items.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil))
         items.append(UIBarButtonItem(image: UIImage(named: "user")?.withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(profileClicked)))
         for item in items {
-            item.tintColor = .black
+            item.tintColor = .white
         }
+        items[4].tintColor = Colors.blue
         return items
     }
     

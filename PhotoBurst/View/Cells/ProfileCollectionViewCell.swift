@@ -31,28 +31,28 @@ class ProfileCollectionViewCell: UICollectionViewCell {
     }
     
     func setup() {
-        backgroundColor = .white
+        backgroundColor = .black
         let circleWidth = self.frame.width / 3.75
         
         profilePicture = {
             let iv = UIImageView()
             iv.backgroundColor = .lightGray
             iv.image = UIImage(named: "user")
-            iv.layer.cornerRadius = circleWidth / 2
+            iv.layer.cornerRadius = (circleWidth * 1.25) / 2
             iv.translatesAutoresizingMaskIntoConstraints = false
             return iv
         }()
         addSubview(profilePicture)
         
-        profilePicture.heightAnchor.constraint(equalToConstant: circleWidth).isActive = true
-        profilePicture.widthAnchor.constraint(equalToConstant: circleWidth).isActive = true
-        profilePicture.topAnchor.constraint(equalTo: self.topAnchor, constant: 75).isActive = true
+        profilePicture.heightAnchor.constraint(equalToConstant: circleWidth * 1.25).isActive = true
+        profilePicture.widthAnchor.constraint(equalToConstant: circleWidth * 1.25).isActive = true
+        profilePicture.topAnchor.constraint(equalTo: self.topAnchor, constant: 65).isActive = true
         profilePicture.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         
         usernameLabel = {
             let label = UILabel()
             label.text = "Username"
-            label.textColor = .black
+            label.textColor = .white
             label.textAlignment = .center
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
@@ -84,9 +84,11 @@ class ProfileCollectionViewCell: UICollectionViewCell {
         followersCircle = {
             let view = UIView()
             view.backgroundColor = Colors.blue
-            view.layer.shadowColor = UIColor.lightGray.cgColor
+            view.layer.borderColor = UIColor.darkGray.cgColor
+            view.layer.borderWidth = 1
+            view.layer.shadowColor = UIColor.darkGray.cgColor
             view.layer.shadowOpacity = 0.8
-            view.layer.shadowOffset = CGSize(width: 0, height: 5)
+            view.layer.shadowOffset = CGSize(width: 0, height: 4)
             view.layer.cornerRadius = circleWidth / 2
             view.translatesAutoresizingMaskIntoConstraints = false
             return view
@@ -101,9 +103,11 @@ class ProfileCollectionViewCell: UICollectionViewCell {
         followingCircle = {
             let view = UIView()
             view.backgroundColor = Colors.blue
-            view.layer.shadowColor = UIColor.lightGray.cgColor
+            view.layer.borderColor = UIColor.darkGray.cgColor
+            view.layer.borderWidth = 1
+            view.layer.shadowColor = UIColor.darkGray.cgColor
             view.layer.shadowOpacity = 0.8
-            view.layer.shadowOffset = CGSize(width: 0, height: 5)
+            view.layer.shadowOffset = CGSize(width: 0, height: 4)
             view.layer.cornerRadius = circleWidth / 2
             view.translatesAutoresizingMaskIntoConstraints = false
             return view
@@ -118,9 +122,11 @@ class ProfileCollectionViewCell: UICollectionViewCell {
         postsCircle = {
             let view = UIView()
             view.backgroundColor = Colors.blue
-            view.layer.shadowColor = UIColor.lightGray.cgColor
+            view.layer.borderColor = UIColor.darkGray.cgColor
+            view.layer.borderWidth = 1
+            view.layer.shadowColor = UIColor.darkGray.cgColor
             view.layer.shadowOpacity = 0.8
-            view.layer.shadowOffset = CGSize(width: 0, height: 5)
+            view.layer.shadowOffset = CGSize(width: 0, height: 4)
             view.layer.cornerRadius = circleWidth / 2
             view.translatesAutoresizingMaskIntoConstraints = false
             return view

@@ -9,8 +9,9 @@
 import UIKit
 import FirebaseStorage
 import Firebase
+import MessageUI
 
-class FeedCollectionView: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, GADUnifiedNativeAdLoaderDelegate {
+class FeedCollectionView: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, MFMailComposeViewControllerDelegate, GADUnifiedNativeAdLoaderDelegate {
     
     var screenSize = UIScreen.main.bounds
     var collectionView: UICollectionView?
@@ -24,6 +25,7 @@ class FeedCollectionView: UIView, UICollectionViewDelegate, UICollectionViewData
     var nativeAdView = GADUnifiedNativeAdView()
     var delegate: ProfileDelegate?
     var adLoader = GADAdLoader()
+    var refresher = UIRefreshControl()
     
     var posts = [Any]() {
         didSet {
@@ -39,6 +41,11 @@ class FeedCollectionView: UIView, UICollectionViewDelegate, UICollectionViewData
     }
     
     override func didMoveToSuperview() {
+        
+//        let domain = Bundle.main.bundleIdentifier!
+//        UserDefaults.standard.removePersistentDomain(forName: domain)
+//        UserDefaults.standard.synchronize()
+        
         loadPosts(date: Date())
         likedPosts = FetchUserData().fetchLikes()
         blockedUsers = FetchUserData().fetchBlockedUsers()
@@ -63,7 +70,7 @@ class FeedCollectionView: UIView, UICollectionViewDelegate, UICollectionViewData
         collectionView = {
             let layout = UICollectionViewFlowLayout()
             let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-            cv.backgroundColor = .white
+            cv.backgroundColor = .black
             cv.register(UINib(nibName: "UnifiedNativeAdView", bundle: nil), forCellWithReuseIdentifier: "adCell")
             cv.register(FeedCollectionViewCell.self, forCellWithReuseIdentifier: "feedCell")
             cv.showsVerticalScrollIndicator = false
@@ -85,12 +92,25 @@ class FeedCollectionView: UIView, UICollectionViewDelegate, UICollectionViewData
             label.text = "No Posts Available. Follow your friends or click the Discover page below!"
             label.alpha = 0
             label.numberOfLines = 0
-            label.textColor = .black
+            label.textColor = .white
             label.textAlignment = .center
             label.center = self.center
             return label
         }()
         self.addSubview(noPostsLabel)
+        
+        refresher = UIRefreshControl()
+        collectionView?.alwaysBounceVertical = true
+        refresher.tintColor = UIColor.white
+        refresher.addTarget(self, action: #selector(reloadData), for: .valueChanged)
+        collectionView?.addSubview(refresher)
+    }
+    
+    @objc func reloadData() {
+        posts = [Any]()
+        self.collectionView?.reloadData()
+        loadPosts(date: Date())
+        self.refresher.endRefreshing()
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -155,6 +175,8 @@ class FeedCollectionView: UIView, UICollectionViewDelegate, UICollectionViewData
                 cell.likeButton.isSelected = false
             }
             
+            cell.moreButton.addTarget(self, action: #selector(showReport(_:)), for: .touchUpInside)
+            
             cell.imageView.image = UIImage.animatedImage(with: post.photos, duration: 0.75)
             cell.imageView.startAnimating()
             
@@ -178,8 +200,10 @@ class FeedCollectionView: UIView, UICollectionViewDelegate, UICollectionViewData
         if indexPath.item == posts.count - 1 {
             if let post = posts[posts.count - 1] as? Post {
                 loadPosts(date: post.time)
-            } else if let post = posts[posts.count - 2] as? Post {
-                loadPosts(date: post.time)
+            } else if posts.count >= 2 {
+                if let post = posts[posts.count - 2] as? Post {
+                    loadPosts(date: post.time)
+                }
             }
         }
     }
@@ -291,6 +315,10 @@ class FeedCollectionView: UIView, UICollectionViewDelegate, UICollectionViewData
     
     func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: GADRequestError) {
         print("Error: \(error)")
+    }
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true)
     }
     
     required init?(coder: NSCoder) {

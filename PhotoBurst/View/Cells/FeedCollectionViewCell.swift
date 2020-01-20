@@ -42,7 +42,7 @@ class FeedCollectionViewCell: UICollectionViewCell {
             label.text = "Username"
             label.font = UIFont.systemFont(ofSize: 18)
             label.textAlignment = .left
-            label.textColor = .black
+            label.textColor = .white
             label.isUserInteractionEnabled = true
             label.layer.zPosition = 2
             return label
@@ -72,7 +72,8 @@ class FeedCollectionViewCell: UICollectionViewCell {
         
         likeButton = {
             let button = UIButton()
-            let image = UIImage(named: "heart")
+            let image = UIImage(named: "heart")?.withRenderingMode(.alwaysTemplate)
+            button.tintColor = .white
             button.setImage(image, for: .normal)
             button.setImage(UIImage(named: "heartFilled"), for: .selected)
             button.addTarget(FeedCollectionView(), action: #selector(FeedCollectionView().likeClicked(_:)), for: .touchUpInside)
@@ -83,7 +84,7 @@ class FeedCollectionViewCell: UICollectionViewCell {
             let label = UILabel()
             label.text = "0"
             label.font = UIFont.systemFont(ofSize: 15)
-            label.textColor = .black
+            label.textColor = .white
             label.textAlignment = .left
             return label
         }()
@@ -96,9 +97,10 @@ class FeedCollectionViewCell: UICollectionViewCell {
         
         moreButton = {
             let button = UIButton()
-            let image = UIImage(named: "more")
+            let image = UIImage(named: "more")?.withRenderingMode(.alwaysTemplate)
+            button.tintColor = .white
             button.setImage(image, for: .normal)
-            button.addTarget(FeedCollectionView(), action: #selector(FeedCollectionView().showReport(_:)), for: .touchUpInside)
+//            button.addTarget(FeedCollectionView(), action: #selector(FeedCollectionView().showReport(_:)), for: .touchUpInside)
             return button
         }()
         

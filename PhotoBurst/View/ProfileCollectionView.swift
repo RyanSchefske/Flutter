@@ -21,6 +21,7 @@ class ProfileCollectionView: UIView, UICollectionViewDelegate, UICollectionViewD
     var following = [String]()
     
     var userId = String()
+    var followDelegate: FollowDelegate?
     
     var profilePicture = UIImage() {
         didSet {
@@ -63,12 +64,12 @@ class ProfileCollectionView: UIView, UICollectionViewDelegate, UICollectionViewD
     }
     
     func setup() {
-        self.backgroundColor = .white
+        self.backgroundColor = .black
         
         collectionView = {
             let layout = UICollectionViewFlowLayout()
             let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-            cv.backgroundColor = .white
+            cv.backgroundColor = .black
             cv.register(FeedCollectionViewCell.self, forCellWithReuseIdentifier: "feedCell")
             cv.register(ProfileCollectionViewCell.self, forCellWithReuseIdentifier: "profileCell")
             cv.showsVerticalScrollIndicator = false
@@ -99,6 +100,11 @@ class ProfileCollectionView: UIView, UICollectionViewDelegate, UICollectionViewD
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "profileCell", for: indexPath) as! ProfileCollectionViewCell
             
             if let user = self.user {
+                if user.userId == Auth.auth().currentUser?.uid {
+                    cell.followButton.isHidden = true
+                } else {
+                    cell.followButton.isHidden = false
+                }
                 if following.contains(user.userId) {
                     cell.followButton.backgroundColor = .red
                     cell.followButton.setTitle("Unfollow", for: .normal)
@@ -112,6 +118,10 @@ class ProfileCollectionView: UIView, UICollectionViewDelegate, UICollectionViewD
                 cell.postsLabel.text = "\(user.posts)\nPosts"
                 cell.profilePicture.image = profilePicture
                 cell.profilePicture.clipsToBounds = true
+                
+                cell.followersCircle.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(followersTapped)))
+                cell.followingCircle.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(followingTapped)))
+                cell.postsCircle.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(postsTapped)))
             }
             return cell
         } else {
@@ -126,6 +136,8 @@ class ProfileCollectionView: UIView, UICollectionViewDelegate, UICollectionViewD
                 cell.likeButton.isSelected = false
             }
             
+            cell.moreButton.addTarget(self, action: #selector(showReport(_:)), for: .touchUpInside)
+            
             cell.imageView.image = UIImage.animatedImage(with: post.photos, duration: 0.75)
             cell.imageView.startAnimating()
             
@@ -134,6 +146,20 @@ class ProfileCollectionView: UIView, UICollectionViewDelegate, UICollectionViewD
             cell.likeLabel.text = "\(post.likes)"
             
             return cell
+        }
+    }
+    
+    @objc func followersTapped() {
+        followDelegate?.followerTapped(userId: userId)
+    }
+    
+    @objc func followingTapped() {
+        followDelegate?.followingTapped(userId: userId)
+    }
+    
+    @objc func postsTapped() {
+        if posts.count >= 1 {
+            collectionView?.scrollToItem(at: IndexPath(item: 1, section: 0), at: .centeredVertically, animated: true)
         }
     }
     
@@ -184,6 +210,9 @@ class ProfileCollectionView: UIView, UICollectionViewDelegate, UICollectionViewD
                 }
                 for document in querySnapshot!.documents {
                     let data = document.data()
+                    if self.posts.contains(where: { ($0 as? Post)?.postId == data["postId"] as? String}) {
+                        continue
+                    }
                     if let array = data["photos"] as? [String] {
                         var postImages = [UIImage]()
                         dispatchQueue.async {

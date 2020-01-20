@@ -32,7 +32,7 @@ class FilterCollectionViewCell: UICollectionViewCell {
         filterLabel = {
             let label = UILabel()
             label.text = "Filter"
-            label.textColor = .black
+            label.textColor = .white
             label.textAlignment = .center
             label.translatesAutoresizingMaskIntoConstraints = false
             return label

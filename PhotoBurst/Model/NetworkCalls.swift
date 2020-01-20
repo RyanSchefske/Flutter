@@ -236,6 +236,33 @@ class UpdatePostData {
             }
         })
     }
+    
+    func deletePost(postId: String) {
+        _ = db.collection("posts").whereField("postId", isEqualTo: postId).getDocuments(completion: { (querySnapshot, error) in
+            guard error == nil, querySnapshot?.documents.count != 0 else {
+                print("Error")
+                return
+            }
+            let document = querySnapshot?.documents.first
+            if let photos = document?.data()["photos"] as? [String] {
+                let storage = Storage.storage()
+                for photo in photos {
+                    let storageRef = storage.reference(forURL: photo)
+                    storageRef.delete { (error) in
+                        if error != nil {
+                            print("Error: \(error!.localizedDescription)")
+                        }
+                    }
+                }
+                document?.reference.delete(completion: { (error) in
+                    if error != nil {
+                        print("Error: \(error!.localizedDescription)")
+                    }
+                })
+            }
+            
+        })
+    }
 }
 
 class SendNotification {

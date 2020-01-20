@@ -42,7 +42,7 @@ class DiscoverCollectionViewCell: UICollectionViewCell {
             label.text = "Username"
             label.font = UIFont.systemFont(ofSize: 18)
             label.textAlignment = .left
-            label.textColor = .black
+            label.textColor = .white
             label.isUserInteractionEnabled = true
             label.layer.zPosition = 2
             return label
@@ -72,10 +72,9 @@ class DiscoverCollectionViewCell: UICollectionViewCell {
         
         likeButton = {
             let button = UIButton()
-            button.setImage(UIImage(named: "heart"), for: .normal)
+            button.setImage(UIImage(named: "heart")?.withRenderingMode(.alwaysTemplate), for: .normal)
             button.setImage(UIImage(named: "heartFilled"), for: .selected)
-            button.setTitle("1", for: .normal)
-            button.setTitleColor(.black, for: .normal)
+            button.tintColor = .white
             button.addTarget(DiscoverCollectionView(), action: #selector(DiscoverCollectionView().likeClicked(_:)), for: .touchUpInside)
             return button
         }()
@@ -85,7 +84,7 @@ class DiscoverCollectionViewCell: UICollectionViewCell {
             label.text = "0"
             label.font = UIFont.systemFont(ofSize: 15)
             label.textAlignment = .left
-            label.textColor = .black
+            label.textColor = .white
             return label
         }()
         
@@ -98,8 +97,8 @@ class DiscoverCollectionViewCell: UICollectionViewCell {
         
         moreButton = {
             let button = UIButton()
-            button.setImage(UIImage(named: "more"), for: .normal)
-            button.setTitleColor(.black, for: .normal)
+            button.setImage(UIImage(named: "more")?.withRenderingMode(.alwaysTemplate), for: .normal)
+            button.tintColor = .white
             button.addTarget(DiscoverCollectionView(), action: #selector(DiscoverCollectionView().showReport(_:)), for: .touchUpInside)
             return button
         }()

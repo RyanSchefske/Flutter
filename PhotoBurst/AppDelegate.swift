@@ -17,10 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        
         UINavigationBar.appearance().isTranslucent = false
-        UINavigationBar.appearance().tintColor = .black
-        UINavigationBar.appearance().barTintColor = .white
+        UINavigationBar.appearance().barTintColor = Colors.barColor
         UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: Colors.blue, .font: UIFont(name: "Baskerville-BoldItalic", size: 25)!]
         UINavigationBar.appearance().layer.masksToBounds = false
         UINavigationBar.appearance().layer.shadowColor = UIColor.lightGray.cgColor
@@ -29,9 +27,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         UINavigationBar.appearance().layer.shadowRadius = 2
         
         UIToolbar.appearance().isTranslucent = false
-        UIToolbar.appearance().barTintColor = .white
+        UIToolbar.appearance().barTintColor = Colors.barColor
         
-        UIApplication.shared.statusBarStyle = .darkContent
+        UIApplication.shared.statusBarStyle = .lightContent
         
         FirebaseApp.configure()
         

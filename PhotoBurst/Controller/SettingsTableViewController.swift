@@ -31,9 +31,7 @@ class SettingsTableViewController: UITableViewController {
             cell.textLabel?.text = "Log Out"
             cell.textLabel?.textColor = .red
         }
-        
-        cell.backgroundColor = .white
-        
+                
         return cell
     }
     
@@ -63,6 +61,6 @@ class SettingsTableViewController: UITableViewController {
     func setupView() {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         title = "Settings"
-        tableView.backgroundColor = .white
+        tableView.backgroundColor = .black
     }
 }

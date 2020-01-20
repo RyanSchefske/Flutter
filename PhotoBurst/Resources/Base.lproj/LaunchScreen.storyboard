@@ -14,7 +14,30 @@
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon" translatesAutoresizingMaskIntoConstraints="NO" id="FVl-XQ-9Zx">
+                                <rect key="frame" x="20" y="178" width="374" height="372"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Flutter" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FL6-RX-mwa">
+                                <rect key="frame" x="20" y="558" width="374" height="76"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="76" id="JmU-5y-6rk"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Baskerville-BoldItalic" family="Baskerville" pointSize="38"/>
+                                <color key="textColor" red="0.23994310229999999" green="0.61273603440000002" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="FVl-XQ-9Zx" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" id="6Ae-li-oBP"/>
+                            <constraint firstItem="FVl-XQ-9Zx" firstAttribute="trailing" secondItem="Ze5-6b-2t3" secondAttribute="trailingMargin" id="JHK-rY-6C7"/>
+                            <constraint firstItem="FL6-RX-mwa" firstAttribute="top" secondItem="FVl-XQ-9Zx" secondAttribute="bottom" constant="8" id="NlR-nS-GUU"/>
+                            <constraint firstItem="FVl-XQ-9Zx" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="134" id="Oy4-Yr-7ps"/>
+                            <constraint firstItem="FVl-XQ-9Zx" firstAttribute="leading" secondItem="FL6-RX-mwa" secondAttribute="leading" id="UR5-Tt-7jY"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="FL6-RX-mwa" secondAttribute="bottom" constant="228" id="kN6-cI-vwx"/>
+                            <constraint firstItem="FVl-XQ-9Zx" firstAttribute="trailing" secondItem="FL6-RX-mwa" secondAttribute="trailing" id="rbJ-7k-zRV"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>
@@ -23,4 +46,7 @@
             <point key="canvasLocation" x="52.173913043478265" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="icon" width="1024" height="1024"/>
+    </resources>
 </document>

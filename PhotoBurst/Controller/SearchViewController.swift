@@ -13,6 +13,7 @@ class SearchViewController: UITableViewController, UISearchResultsUpdating {
     var tableData = [UserShort]()
     var filteredTableData = [UserShort]()
     var searchController = UISearchController()
+    let blockedUsers = FetchUserData().fetchBlockedUsers()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +22,7 @@ class SearchViewController: UITableViewController, UISearchResultsUpdating {
     }
     
     func setup() {
-        tableView.backgroundColor = .white
+        tableView.backgroundColor = .black
         tableView.register(SettingsTableCell.self, forCellReuseIdentifier: "cellId")
         title = "Search"
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
@@ -31,10 +32,10 @@ class SearchViewController: UITableViewController, UISearchResultsUpdating {
         searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
-        searchController.searchBar.barTintColor = .white
+        searchController.searchBar.barTintColor = .black
         definesPresentationContext = true
         tableView.tableHeaderView = searchController.searchBar
-        searchController.searchBar.tintColor = .white
+        searchController.searchBar.tintColor = .black
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -92,9 +93,11 @@ class SearchViewController: UITableViewController, UISearchResultsUpdating {
                         for document in querySnapshot!.documents {
                             if let username = document.data()["username"] as? String {
                                 if let userId = document.data()["userId"] as? String {
+                                    if self.blockedUsers.contains(userId) {
+                                        continue
+                                    }
                                     let user = UserShort(username: username, userId: userId)
                                     self.filteredTableData.append(user)
-                                    print("Found")
                                     self.tableView.reloadData()
                                 }
                             }

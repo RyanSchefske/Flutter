@@ -9,8 +9,9 @@
 import UIKit
 import FirebaseStorage
 import Firebase
+import MessageUI
 
-class DiscoverCollectionView: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, GADUnifiedNativeAdLoaderDelegate {
+class DiscoverCollectionView: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, MFMailComposeViewControllerDelegate, GADUnifiedNativeAdLoaderDelegate {
     
     var screenSize = UIScreen.main.bounds
     var collectionView: UICollectionView?
@@ -24,6 +25,7 @@ class DiscoverCollectionView: UIView, UICollectionViewDelegate, UICollectionView
     var delegate: DiscoverProfileDelegate?
     var nativeAdView = GADUnifiedNativeAdView()
     var adLoader = GADAdLoader()
+    var refresher = UIRefreshControl()
     
     var posts = [Any]() {
         didSet {
@@ -63,7 +65,7 @@ class DiscoverCollectionView: UIView, UICollectionViewDelegate, UICollectionView
         collectionView = {
             let layout = UICollectionViewFlowLayout()
             let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-            cv.backgroundColor = .white
+            cv.backgroundColor = .black
             cv.register(UINib(nibName: "UnifiedNativeAdView", bundle: nil), forCellWithReuseIdentifier: "adCell")
             cv.register(DiscoverCollectionViewCell.self, forCellWithReuseIdentifier: "discoverCell")
             cv.showsVerticalScrollIndicator = false
@@ -85,11 +87,24 @@ class DiscoverCollectionView: UIView, UICollectionViewDelegate, UICollectionView
             label.text = "No Posts Available"
             label.alpha = 0
             label.textAlignment = .center
-            label.textColor = .black
+            label.textColor = .white
             label.center = self.center
             return label
         }()
         self.addSubview(noPostsLabel)
+        
+        refresher = UIRefreshControl()
+        collectionView?.alwaysBounceVertical = true
+        refresher.tintColor = UIColor.white
+        refresher.addTarget(self, action: #selector(reloadData), for: .valueChanged)
+        collectionView?.addSubview(refresher)
+    }
+    
+    @objc func reloadData() {
+        posts = [Any]()
+        self.collectionView?.reloadData()
+        loadPosts(date: Date())
+        self.refresher.endRefreshing()
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -177,8 +192,10 @@ class DiscoverCollectionView: UIView, UICollectionViewDelegate, UICollectionView
         if indexPath.item == posts.count - 1 {
             if let post = posts[posts.count - 1] as? Post {
                 loadPosts(date: post.time)
-            } else if let post = posts[posts.count - 2] as? Post {
-                loadPosts(date: post.time)
+            } else if posts.count >= 2 {
+                if let post = posts[posts.count - 2] as? Post {
+                    loadPosts(date: post.time)
+                }
             }
         }
     }
@@ -189,7 +206,7 @@ class DiscoverCollectionView: UIView, UICollectionViewDelegate, UICollectionView
         let dispatchQueue = DispatchQueue(label: "download")
         let dispatchSemaphore = DispatchSemaphore(value: 0)
         
-        db.collection("posts").order(by: "time", descending: true).whereField("time", isLessThan: date).limit(to: 3).getDocuments { (querySnapshot, error) in
+        db.collection("posts").order(by: "time", descending: true).start(after: [date]).limit(to: 3).getDocuments { (querySnapshot, error) in
             if error != nil {
                 print("Error: \(error!.localizedDescription)")
             } else {
@@ -200,6 +217,9 @@ class DiscoverCollectionView: UIView, UICollectionViewDelegate, UICollectionView
                     for document in querySnapshot!.documents {
                         let data = document.data()
                         if self.posts.contains(where: { ($0 as? Post)?.postId == data["postId"] as? String}) {
+                            continue
+                        }
+                        if self.blockedUsers.contains(data["userId"] as! String) || self.hiddenPosts.contains(data["postId"] as! String) {
                             continue
                         }
                         if let array = data["photos"] as? [String] {
@@ -276,13 +296,16 @@ class DiscoverCollectionView: UIView, UICollectionViewDelegate, UICollectionView
     }
     
     func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADUnifiedNativeAd) {
-        print("Received")
         posts.append(nativeAd)
         
     }
     
     func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: GADRequestError) {
         print("Error: \(error)")
+    }
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true)
     }
     
     required init?(coder: NSCoder) {

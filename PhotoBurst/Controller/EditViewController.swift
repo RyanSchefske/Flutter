@@ -39,7 +39,7 @@ class EditViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     func setup() {
-        view.backgroundColor = .white
+        view.backgroundColor = .black
         title = "Edit"
         
         interstitial = createAndLoadInterstitial()
@@ -64,7 +64,7 @@ class EditViewController: UIViewController, UICollectionViewDelegate, UICollecti
             let layout = UICollectionViewFlowLayout()
             layout.scrollDirection = .horizontal
             let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-            cv.backgroundColor = .white
+            cv.backgroundColor = .black
             cv.delegate = self
             cv.dataSource = self
             cv.register(FilterCollectionViewCell.self, forCellWithReuseIdentifier: "cellId")

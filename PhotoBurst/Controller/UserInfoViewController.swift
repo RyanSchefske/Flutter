@@ -44,7 +44,7 @@ class UserInfoViewController: UIViewController, UIImagePickerControllerDelegate,
     
     func setup() {
         title = "Update Profile"
-        view.backgroundColor = .white
+        view.backgroundColor = .black
         
         getCurrentUsername()
         
@@ -86,13 +86,13 @@ class UserInfoViewController: UIViewController, UIImagePickerControllerDelegate,
         usernameTextField = {
             let tf = UITextField()
             tf.font = UIFont.systemFont(ofSize: 15)
-            tf.textColor = .black
+            tf.textColor = .white
             tf.layer.borderColor = UIColor.lightGray.cgColor
             tf.layer.borderWidth = 1
             tf.layer.cornerRadius = 10
             tf.placeholder = "Username"
             tf.text = currentUsername
-            tf.backgroundColor = .white
+            tf.backgroundColor = .darkGray
             tf.delegate = self
             tf.translatesAutoresizingMaskIntoConstraints = false
             return tf

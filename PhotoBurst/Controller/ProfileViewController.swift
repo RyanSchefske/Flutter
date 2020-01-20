@@ -9,7 +9,12 @@
 import UIKit
 import FirebaseAuth
 
-class ProfileViewController: UIViewController {
+protocol FollowDelegate {
+    func followerTapped(userId: String)
+    func followingTapped(userId: String)
+}
+
+class ProfileViewController: UIViewController, FollowDelegate {
     
     var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     var userId = String()
@@ -22,10 +27,24 @@ class ProfileViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
         
         let cv = ProfileCollectionView()
+        cv.followDelegate = self
         cv.userId = userId
         view.addSubview(cv)
         
         setToolbarItems(customToolbarItems(), animated: true)
         navigationController?.setToolbarHidden(false, animated: true)
+    }
+    
+    func followerTapped(userId: String) {
+        let vc = FollowTableViewController()
+        vc.followers = true
+        vc.userId = userId
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func followingTapped(userId: String) {
+        let vc = FollowTableViewController()
+        vc.userId = userId
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }

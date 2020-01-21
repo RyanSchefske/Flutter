@@ -24,11 +24,10 @@ extension ProfileCollectionView {
             if let destination = CGImageDestinationCreateWithURL(url, kUTTypeGIF, images.count, nil) {
                 CGImageDestinationSetProperties(destination, fileProperties)
                 for image in images {
-                    
-                    let watermarkImage = UIImage(named: "icon")
+                    let watermarkImage = UIImage(named: "icon")!.alpha(0.8)
                     UIGraphicsBeginImageContextWithOptions(image.size, false, 1)
                     image.draw(in: CGRect(x: 0.0, y: 0.0, width: image.size.width, height: image.size.height))
-                    watermarkImage!.draw(in: CGRect(x: 10, y: 10, width: 200, height: 200))
+                    watermarkImage.draw(in: CGRect(x: 10, y: 10, width: 200, height: 200))
 
                     let result = UIGraphicsGetImageFromCurrentImageContext()
                     UIGraphicsEndImageContext()
@@ -56,5 +55,15 @@ extension ProfileCollectionView {
                 }
             }
         }
+    }
+}
+
+extension UIImage {
+    func alpha(_ value:CGFloat) -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(size, false, scale)
+        draw(at: CGPoint.zero, blendMode: .normal, alpha: value)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage!
     }
 }

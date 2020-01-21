@@ -103,7 +103,7 @@ class SaveUserInfo {
                 print("Error")
             }
         }
-    
+        
         //Updates user database with new information
         db.collection("users").whereField("userId", isEqualTo: Auth.auth().currentUser!.uid).getDocuments { (querySnapshot, error) in
             if error != nil {
@@ -118,6 +118,7 @@ class SaveUserInfo {
                     }
                 }
             }
+            
         }
     }
     

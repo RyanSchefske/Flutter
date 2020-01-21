@@ -36,6 +36,7 @@
 		3D64C95823B707F600B6C4B8 /* FeedCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D64C95723B707F600B6C4B8 /* FeedCollectionView.swift */; };
 		3D77F86E23BAB35D006FA81C /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D77F86D23BAB35D006FA81C /* Post.swift */; };
 		3D80278023B57AF100E17CD5 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D80277F23B57AF100E17CD5 /* SignInView.swift */; };
+		3D8885B823D66C5F00E22A57 /* ButtonShake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8885B723D66C5F00E22A57 /* ButtonShake.swift */; };
 		3D906C3523BE662A0010AFEC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D906C3423BE662A0010AFEC /* Constants.swift */; };
 		3D906C3723BE74A50010AFEC /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D906C3623BE74A50010AFEC /* SettingsTableViewController.swift */; };
 		3D906C3923BE75000010AFEC /* SettingsTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D906C3823BE75000010AFEC /* SettingsTableCell.swift */; };
@@ -80,6 +81,7 @@
 		3D64C95723B707F600B6C4B8 /* FeedCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCollectionView.swift; sourceTree = "<group>"; };
 		3D77F86D23BAB35D006FA81C /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		3D80277F23B57AF100E17CD5 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
+		3D8885B723D66C5F00E22A57 /* ButtonShake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonShake.swift; sourceTree = "<group>"; };
 		3D906C3423BE662A0010AFEC /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		3D906C3623BE74A50010AFEC /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		3D906C3823BE75000010AFEC /* SettingsTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableCell.swift; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				3D5A0D2E23BDA55000FA79C9 /* PopIn.swift */,
+				3D8885B723D66C5F00E22A57 /* ButtonShake.swift */,
 			);
 			path = Animations;
 			sourceTree = "<group>";
@@ -400,6 +403,7 @@
 				3D275BE423AAC24D0020B7B5 /* AppDelegate.swift in Sources */,
 				3D906C3723BE74A50010AFEC /* SettingsTableViewController.swift in Sources */,
 				3DB44F5223BFF76C002EBB76 /* ProfileCollectionView.swift in Sources */,
+				3D8885B823D66C5F00E22A57 /* ButtonShake.swift in Sources */,
 				3D275BF823AAC2B30020B7B5 /* TakePhotoViewController.swift in Sources */,
 				3DB44F5023BFF552002EBB76 /* DiscoverViewController.swift in Sources */,
 				3D206BA623D5796400341691 /* GifCreation.swift in Sources */,

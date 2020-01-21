@@ -144,16 +144,31 @@ class UserInfoViewController: UIViewController, UIImagePickerControllerDelegate,
         guard let text = usernameTextField!.text, !text.isEmpty, text != "" else {
             return
         }
+        
         if changed {
             SaveUserInfo().updateProfilePicture(view: self.view, picture: picture)
-            SaveUserInfo().updateUserInfo(username: text)
-            self.navigationController?.pushViewController(FeedViewController(), animated: true)
-        } else {
-            view.showSpinner(onView: view)
-            SaveUserInfo().updateUserInfo(username: text)
-            self.navigationController?.pushViewController(FeedViewController(), animated: true)
-            self.view.removeSpinner()
         }
+        
+        if Auth.auth().currentUser?.displayName != text {
+            let _ = db.collection("users").whereField("username", isEqualTo: text).getDocuments { (querySnapshot, error) in
+                if error != nil {
+                    print("Error: \(error!.localizedDescription)")
+                } else {
+                    if querySnapshot!.documents.count > 0 {
+                        DispatchQueue.main.async {
+                            self.saveButton?.shake()
+                            let alert = UIAlertController(title: "Try Again", message: "That username is already being used.", preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+                            self.present(alert, animated: true)
+                        }
+                    } else {
+                            SaveUserInfo().updateUserInfo(username: text)
+                    }
+                }
+            }
+        }
+        
+        self.navigationController?.pushViewController(FeedViewController(), animated: true)
     }
     
     func getCurrentUsername() {

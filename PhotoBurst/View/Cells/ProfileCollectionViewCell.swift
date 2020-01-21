@@ -205,16 +205,6 @@ class ProfileCollectionViewCell: UICollectionViewCell {
         scrollLabel.widthAnchor.constraint(equalToConstant: self.frame.width).isActive = true
     }
     
-    func animateCircles() {
-        followersCircle.topAnchor.constraint(equalTo: followButton.bottomAnchor, constant: 30).isActive = true
-        
-        UIView.animate(withDuration: 0.6, delay: 0.25, usingSpringWithDamping: 0.55, initialSpringVelocity: 3, options: .curveEaseOut, animations: {
-            self.didMoveToSuperview()
-        }, completion: nil)
-        //followingCircle.topAnchor.constraint(equalTo: followersCircle.centerYAnchor, constant: 20).isActive = true
-        //postsCircle.topAnchor.constraint(equalTo: followersCircle.topAnchor).isActive = true
-    }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
